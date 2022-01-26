@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './App.scss';
 import { Form } from 'components/Form/Form';
+import Header from 'components/Header/Header';
+import Footer from 'components/Footer/Footer';
 
 export const App = () => {
     const [v_card_data, setVCardData] = useState<string>('');
@@ -11,10 +13,7 @@ export const App = () => {
 
     return (
         <div className='App'>
-            <header className='App-header'>
-                <img src='/favicon.ico' alt='logo' />
-                <p>Welcome to the vCard QR Code Generator by Foo-Bar-&-Baz!</p>
-            </header>
+            <Header />
             <main>
                 <Form onDataSubmit={handleFormData} />
                 <div className='temporary-vCard-display'>
@@ -22,9 +21,10 @@ export const App = () => {
                     <p><i> - This v_card_data will be passed to the QR Code Generator</i></p>
                 </div>
             </main>
-            <footer>
+            <Footer />
+            {/* <footer>
                 <p>© 2022 Foo-Bar-&-Baz, All Rights Reserved.</p>
-            </footer>
+            </footer> */}
         </div>
     );
 };

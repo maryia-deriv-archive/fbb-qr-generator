@@ -161,16 +161,14 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
                                     <label className='col-3' htmlFor={first_field_name}>
                                         {label_text}
                                     </label>
-                                ) : null}
+                                ) : <div className='col-42' > </div>}
                                 <div className={'col-9'}>
                                     {second_field_name ? (
                                         <div
-                                            className={`row${
-                                                first_field_name === 'phone_number' ? ' align-right' : ''
-                                            }`}
+                                            className={'row'}
                                         >
                                             <div
-                                                className={`col-${first_field_name === 'phone_number' ? '' : '6'}`}
+                                                className={'col-6'}
                                             >
                                                 <input
                                                     id={first_field_name}
@@ -181,7 +179,7 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
                                                 />
                                             </div>
                                             <div
-                                                className={`col-${first_field_name === 'phone_number' ? '' : '6'}`}
+                                                className={'col-6'}
                                             >
                                                 <input
                                                     id={second_field_name}
@@ -207,7 +205,7 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
                     }
                 )}
 
-                <button type='submit'> Generate QR Code </button>
+                <button  className="generate" type='submit'> Generate QR Code </button>
             </form>
         </div>
     );

@@ -18,7 +18,7 @@ export const QRCodeGenerator: React.FC<Props> = ({ firstName, lastName, email }:
                 method: 'GET',
                 headers: {
                     'x-rapidapi-host': 'qrcode-monkey.p.rapidapi.com',
-                    'x-rapidapi-key': 'API-KEY-HERE',
+                    'x-rapidapi-key': `${process.env.API_KEY}`,
                 },
             });
 

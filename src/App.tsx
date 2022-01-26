@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import './App.scss';
 import { Form } from 'components/Form/Form';
+import { QRCodeGenerator } from 'components/QRCodeGenerator';
 
 export const App = () => {
-    const [v_card_data, setVCardData] = useState<string>('');
+    const [vCardData, setVCardData] = useState<string>();
 
-    const handleFormData = (v_card_string: string) => {
-        setVCardData(v_card_string);
+    const handleFormData = (vCardString: string) => {
+        setVCardData(vCardString);
     };
 
     return (
@@ -18,8 +19,7 @@ export const App = () => {
             <main>
                 <Form onDataSubmit={handleFormData} />
                 <div className='temporary-vCard-display'>
-                    <p>&ldquo;{v_card_data}&ldquo;</p>
-                    <p><i> - This v_card_data will be passed to the QR Code Generator</i></p>
+                    <QRCodeGenerator data={vCardData} />
                 </div>
             </main>
             <footer>

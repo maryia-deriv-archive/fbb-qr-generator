@@ -11,6 +11,7 @@ export const App = () => {
 
     return (
         <div className='App'>
+            <div>fck</div>
             <header className='App-header'>
                 <img src='/favicon.ico' alt='logo' />
                 <p>Welcome to the vCard QR Code Generator by Foo-Bar-&-Baz!</p>

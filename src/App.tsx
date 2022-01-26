@@ -23,6 +23,7 @@ export const App = () => {
                 </div>
             </main>
             <footer>
+                <div className="surprise"></div>
                 <p>© 2022 Foo-Bar-&-Baz, All Rights Reserved.</p>
             </footer>
         </div>

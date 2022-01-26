@@ -62,3 +62,43 @@ footer {
         @include text($fontFamily, 16px, 600, 46px, $captionTextColor);
     }
 }
+
+.surprise {
+    position: absolute;
+    width: 71px;
+    height: 72px;
+    background: url('../public/surprise.png') left center;
+    top: 80vh;
+    left: 0px;
+
+    -webkit-animation: play 0.8s steps(4) infinite, run 7s both infinite linear;
+
+    animation: play 0.8s steps(4) infinite, run 7s both infinite linear;
+}
+
+@-webkit-keyframes play {
+    100% {
+        background-position: -284px;
+    }
+}
+@keyframes play {
+    100% {
+        background-position: -284px;
+    }
+}
+@-webkit-keyframes run {
+    from {
+        left: 20%;
+    }
+    to {
+        left: 70%;
+    }
+}
+@keyframes run {
+    from {
+        left: 20%;
+    }
+    to {
+        left: 70%;
+    }
+}

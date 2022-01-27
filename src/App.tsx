@@ -3,22 +3,21 @@ import './App.scss';
 import { Form } from 'components/Form/Form';
 import Header from 'components/Header/Header';
 import Footer from 'components/Footer/Footer';
+import { QRCodeGenerator } from 'components/QRCodeGenerator/QRCodeGenerator';
+import { QRParamsSelector } from 'components/QRCodeGenerator/QRParamsSelector';
 
 export const App = () => {
-    const [v_card_data, setVCardData] = useState<string>('');
-
-    const handleFormData = (v_card_string: string) => {
-        setVCardData(v_card_string);
-    };
+    const [vCardData, setVCardData] = useState<string>('');
+    const [color, setColor] = useState<string>('');
 
     return (
         <div className='App'>
             <Header />
             <main>
-                <Form onDataSubmit={handleFormData} />
+                <Form onDataSubmit={setVCardData} />
                 <div className='temporary-vCard-display'>
-                    <p>&ldquo;{v_card_data}&ldquo;</p>
-                    <p><i> - This v_card_data will be passed to the QR Code Generator</i></p>
+                    <QRCodeGenerator data={vCardData} color={color} />
+                    <QRParamsSelector onColorSelect={setColor} />
                 </div>
             </main>
             <Footer />

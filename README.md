@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# Foo-Bar-&-Baz's vCard QR Code Generator
 
 This a vCard QR Code Qenerator designed by Foo-Bar-&-Baz.
 It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

@@ -94,18 +94,23 @@ const form_rows: TFormRowsData = [
 
 export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
     const convertValuesToVCardString = (values: TFormValues) => {
-        onDataSubmit(`BEGIN:VCARD
-        VERSION:3.0
-        N:${values.last_name};${values.first_name}
-        FN:${values.first_name} ${values.last_name}
-        ORG:${values.company}
-        TITLE:${values.job}
-        TEL;CELL:${values.mobile_number};WORK:${values.phone_number};FAX:${values.fax_number}
-        EMAIL:${values.email}
-        ADR:;;${values.street};${values.city};${values.state};${values.zip};${values.country}
-        URL:${values.website}
-        END:VCARD
-        `);
+        const trimmed_values = Object.entries(values)
+            .map(entry => [entry[0], entry[1].trim()])
+            .reduce((acc, el) => ({ ...acc, [el[0]]: el[1] }), {} as { [key: string]: string });
+
+        const encoded_string = encodeURIComponent(
+            'BEGIN:VCARD\nVERSION:2.1\n' +
+                `N:${trimmed_values.last_name};${trimmed_values.first_name}\n` +
+                `FN:${trimmed_values.first_name} ${trimmed_values.last_name}\n` +
+                `ORG:${trimmed_values.company}\nTITLE:${trimmed_values.job}\n` +
+                `TEL;CELL:${trimmed_values.mobile_number}` +
+                `${trimmed_values.phone_number ? `;WORK:${trimmed_values.phone_number}` : ''}` +
+                `${trimmed_values.fax_number ? `;FAX:${trimmed_values.fax_number}` : ''}\n` +
+                `EMAIL:${trimmed_values.email}\n` +
+                `ADR:;;${trimmed_values.street};${trimmed_values.city};${trimmed_values.state};` +
+                `${trimmed_values.zip};${trimmed_values.country}\nURL:${trimmed_values.website}\nEND:VCARD`
+        );
+        onDataSubmit(encoded_string);
     };
 
     const formik = useFormik({

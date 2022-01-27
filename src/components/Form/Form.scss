@@ -35,6 +35,7 @@
 
             .col-3 {
                 width: 30%;
+                font-size: 15px;
             }
             .col-6 {
                 width: 60%;
@@ -49,13 +50,21 @@
     }
 }
 
+.form_title {
+    padding: 5px;
+    border: 3px solid black;
+    border-radius: 5px;
+    background-color: white;
+}
+
 .row {
     flex-direction: column;
 }
 
 .form-container input {
     margin: 10px;
-    width: 300px;
+    // width: 300px;
+    width: 100%;
     height: 25px;
     background-color: black;
     border-radius: 8px;
@@ -73,26 +82,23 @@ input:invalid {
 
 input:valid {
     border: 5px solid green;
-    width: 301px;
+    // width: 301px;
 
 }
 
 .generate {
-    padding: 5px;
+    background-color:navajowhite;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 10px;
     border: 10px double black;
+    box-shadow: 2px 2px 2px 2px black;
     font-family: inherit;
     cursor: pointer;
     transition: .2s;
 }
-.generate:hover {
-    box-shadow: 5px 5px 5px 5px black;
-}
 
 .generate:active {
-    color: white;
-    text-decoration: underline;
-    transform: scale(1.01);
-    border: 10px double white;
-    background-color: black;
+    box-shadow: 0px 0px 0px 0px black;
 }
 

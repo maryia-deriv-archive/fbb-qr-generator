@@ -19,6 +19,10 @@
     background-color:white;
     border-radius: 5px;
     border: 2px solid black;
+
+    @media (max-width: 500px) {
+        display: none;
+    }
 }
 
 .header_logo p {
@@ -27,6 +31,11 @@
     font-family: inherit;
     margin: 0px;
     padding: 5px;
+
+    @media (max-width: 600px) {
+        font-size: 10px;
+        
+    }
 }
 
 .title_wrapprer {
@@ -35,6 +44,10 @@
 .title_wrapprer p {
     line-height: 15px;
     font-size: 15px;
+
+    @media (max-width: 600px) {
+        font-size: 10px;
+    }
 }
 
 

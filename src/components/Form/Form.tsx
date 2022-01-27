@@ -36,7 +36,7 @@ const form_rows: TFormRowsData = [
     {
         first_field_name: 'first_name',
         second_field_name: 'last_name',
-        label_text: 'Your Name:',
+        label_text: 'Name:',
         first_field_placeholder: 'First name',
         second_field_placeholder: 'Last name',
     },
@@ -138,7 +138,7 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
     return (
         <div className='form-container'>
             <h1>
-                <p>VCARD QR Code</p>
+                <p className='form_title' >VCARD QR Code</p>
             </h1>
             <form onSubmit={formik.handleSubmit}>
                 {form_rows.map(

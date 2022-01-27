@@ -2,6 +2,11 @@
 @import 'sass/variables';
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+body {
+    background-color: cadetblue;
+
+}
+
 .App {
     display: flex;
     // align-items: center;
@@ -24,15 +29,27 @@
         background-color: navajowhite;
         box-shadow: 5px 0px 5px 5px black;
 
+        @media (max-width: 800px) {
+            flex-wrap: wrap;
+        }
+
         h1 {
             @include text($fontFamily, 18px, 600, 46px, $captionTextColor);
         }
 
         .temporary-vCard-display {
             @include text($fontFamily, 16px, 600, 46px, $captionTextColor);
-            max-width: 40%;
             display: flex;
             flex-direction: column;
+            margin: 40px;
+            min-width: 30%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #ffc877;
+            box-shadow: 5px 5px 5px 5px black;
+            border-radius: 5px;
+            padding: 30px;
         }
     }
 }
@@ -54,7 +71,7 @@ header {
     }
     p {
         @include text($fontFamily, 1.6em, 600, 46px, $captionTextColor);
-        padding: 0 40px;
+        padding: 0 5px;
     }
 }
 

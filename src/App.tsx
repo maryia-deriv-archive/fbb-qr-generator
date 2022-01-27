@@ -6,6 +6,7 @@ import Footer from 'components/Footer/Footer';
 import { QRCodeGenerator } from 'components/QRCodeGenerator/QRCodeGenerator';
 import { QRParamsSelector } from 'components/QRCodeGenerator/QRParamsSelector';
 
+
 export const App = () => {
     const [vCardData, setVCardData] = useState<string>('');
     const [color, setColor] = useState<string>('');

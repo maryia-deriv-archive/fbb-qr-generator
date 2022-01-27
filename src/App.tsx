@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import './App.scss';
 import { Form } from 'components/Form/Form';
-import { QRCodeGenerator } from 'components/QRCodeGenerator';
+import { QRCodeGenerator } from 'components/QRCodeGenerator/QRCodeGenerator';
+import { QRParamsSelector } from 'components/QRCodeGenerator/QRParamsSelector';
 
 export const App = () => {
-    const [vCardData, setVCardData] = useState<string>();
-
-    const handleFormData = (vCardString: string) => {
-        setVCardData(vCardString);
-    };
+    const [vCardData, setVCardData] = useState<string>('');
+    const [color, setColor] = useState<string>('');
 
     return (
         <div className='App'>
@@ -17,9 +15,10 @@ export const App = () => {
                 <p>Welcome to the vCard QR Code Generator by Foo-Bar-&-Baz!</p>
             </header>
             <main>
-                <Form onDataSubmit={handleFormData} />
+                <Form onDataSubmit={setVCardData} />
                 <div className='temporary-vCard-display'>
-                    <QRCodeGenerator data={vCardData} />
+                    <QRCodeGenerator data={vCardData} color={color}/>
+                    <QRParamsSelector onColorSelect={setColor} />
                 </div>
             </main>
             <footer>

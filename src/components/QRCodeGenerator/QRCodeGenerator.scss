@@ -1,4 +1,7 @@
 .qr-code-image {
+    padding: 5px;
+    border: 15px double black;
+    background-color: white;
     display: flex;
     justify-content: center;
 
@@ -7,3 +10,52 @@
         height: 250px;
     }
 }
+
+
+.color_btn_black {
+    color: black;
+}
+
+.color_btn_red {
+    color: red;
+}
+
+.color_btn_blue {
+    color: blue;
+}
+
+.color_btn_green {
+    color: green;
+}
+
+.color_btn_rose {
+    color: rgb(220, 20, 60);
+}
+
+
+.form_radio_btn {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+
+.form_radio_btn input[type=radio] {
+	display: none;
+}
+.form_radio_btn label {
+    background: navajowhite;
+    box-shadow: 2px 2px 2px 2px black;
+	display: inline-block;
+	cursor: pointer;
+	padding: 0px 10px;
+	line-height: 34px;
+    border: 10px double black;
+	border-radius: 6px;
+	user-select: none;
+    transition: .1s;
+}
+
+.form_radio_btn label:active {
+    box-shadow: 0px 0px 0px 0px black;
+}
+ 

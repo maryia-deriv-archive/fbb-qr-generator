@@ -36,7 +36,7 @@ const form_rows: TFormRowsData = [
     {
         first_field_name: 'first_name',
         second_field_name: 'last_name',
-        label_text: 'Your Name:',
+        label_text: 'Name:',
         first_field_placeholder: 'First name',
         second_field_placeholder: 'Last name',
     },
@@ -138,7 +138,7 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
     return (
         <div className='form-container'>
             <h1>
-                <p>VCARD QR Code</p>
+                <p className='form_title' >VCARD QR Code</p>
             </h1>
             <form onSubmit={formik.handleSubmit}>
                 {form_rows.map(
@@ -166,15 +166,15 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
                                     <label className='col-3' htmlFor={first_field_name}>
                                         {label_text}
                                     </label>
-                                ) : null}
+                                ) : <div className='col-42' > </div>}
                                 <div className={'col-9'}>
                                     {second_field_name ? (
                                         <div
-                                            className={`row${
-                                                first_field_name === 'phone_number' ? ' align-right' : ''
-                                            }`}
+                                            className={'row'}
                                         >
-                                            <div className={`col-${first_field_name === 'phone_number' ? '' : '6'}`}>
+                                            <div
+                                                className={'col-6'}
+                                            >
                                                 <input
                                                     id={first_field_name}
                                                     type={field_type}
@@ -183,7 +183,9 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
                                                     {...formik.getFieldProps(first_field_name)}
                                                 />
                                             </div>
-                                            <div className={`col-${first_field_name === 'phone_number' ? '' : '6'}`}>
+                                            <div
+                                                className={'col-6'}
+                                            >
                                                 <input
                                                     id={second_field_name}
                                                     type={field_type}
@@ -208,7 +210,7 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
                     }
                 )}
 
-                <button type='submit'> Generate QR Code </button>
+                <button  className="generate" type='submit'> Generate QR Code </button>
             </form>
         </div>
     );

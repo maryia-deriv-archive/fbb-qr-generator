@@ -1,18 +1,37 @@
 @import 'sass/mixins';
 @import 'sass/variables';
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+    background-color: cadetblue;
+
+}
 
 .App {
     display: flex;
+    // align-items: center;
     flex-direction: column;
     justify-content: space-between;
+    background-color: cadetblue;
     min-height: 100vh;
     max-height: fit-content;
+    font-family: 'Press Start 2P', cursive;
+
 
     main {
+        margin: 0px 10px 30px 10px;
         flex-grow: 8;
         display: flex;
         justify-content: space-evenly;
         align-items: center;
+
+        border-radius: 5px;
+        background-color: navajowhite;
+        box-shadow: 5px 0px 5px 5px black;
+
+        @media (max-width: 800px) {
+            flex-wrap: wrap;
+        }
 
         h1 {
             @include text($fontFamily, 18px, 600, 46px, $captionTextColor);
@@ -20,9 +39,17 @@
 
         .temporary-vCard-display {
             @include text($fontFamily, 16px, 600, 46px, $captionTextColor);
-            max-width: 40%;
             display: flex;
             flex-direction: column;
+            margin: 40px;
+            min-width: 30%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #ffc877;
+            box-shadow: 5px 5px 5px 5px black;
+            border-radius: 5px;
+            padding: 30px;
         }
     }
 }
@@ -34,7 +61,6 @@ footer {
 }
 
 header {
-    background-image: linear-gradient(to top, $bGFirstColor, rgba(14, 149, 167, 0.7));
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,12 +71,12 @@ header {
     }
     p {
         @include text($fontFamily, 1.6em, 600, 46px, $captionTextColor);
-        padding: 0 40px;
+        padding: 0 5px;
     }
 }
 
 footer {
-    background: linear-gradient(to bottom, $bGFirstColor, rgba(14, 149, 167, 0.7));
+    // background: linear-gradient(to bottom, $bGFirstColor, rgba(14, 149, 167, 0.7));
     text-align: center;
     font-size: 12px;
     display: flex;

@@ -1,11 +1,13 @@
 import React from 'react';
+import './QRCodeGenerator.scss';
+
 
 const colors: TColors = [
-    { title: 'Black', rgb_decimal_code: '0-0-0' },
-    { title: 'Red', rgb_decimal_code: '255-0-0' },
-    { title: 'Blue', rgb_decimal_code: '0-0-255' },
-    { title: 'Green', rgb_decimal_code: '34-139-34' },
-    { title: 'Rose', rgb_decimal_code: '220-20-60' },
+    { title: 'black', rgb_decimal_code: '0-0-0' },
+    { title: 'red', rgb_decimal_code: '255-0-0' },
+    { title: 'blue', rgb_decimal_code: '0-0-255' },
+    { title: 'green', rgb_decimal_code: '34-139-34' },
+    { title: 'rose', rgb_decimal_code: '220-20-60' },
 ];
 
 type TColors = {
@@ -25,7 +27,7 @@ export const QRParamsSelector: React.FC<TQRParamsSelectorProps> = ({ onColorSele
             <div className='color-picker'>
                 <p>Please select a color for the QR code:</p>
                 {colors.map((color, i) => (
-                    <span key={i}>
+                    <span className='form_radio_btn' key={i}>
                         <label>
                             <input
                                 type='radio'
@@ -34,7 +36,9 @@ export const QRParamsSelector: React.FC<TQRParamsSelectorProps> = ({ onColorSele
                                 onChange={handleValueChange}
                                 defaultChecked={!!(color.title === 'Black')}
                             />
+                            <div className={`color_btn_${color.title}`}> 
                             {color.title}
+                            </div>
                         </label>
                     </span>
                 ))}

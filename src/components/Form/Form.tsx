@@ -98,16 +98,18 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
             .map(entry => [entry[0], entry[1].trim()])
             .reduce((acc, el) => ({ ...acc, [el[0]]: el[1] }), {} as { [key: string]: string });
 
-        const encoded_string = encodeURIComponent('BEGIN:VCARD\nVERSION:2.1\n' +
-            `N:${trimmed_values.last_name};${trimmed_values.first_name}\n` +
-            `FN:${trimmed_values.first_name} ${trimmed_values.last_name}\n` +
-            `ORG:${trimmed_values.company}\nTITLE:${trimmed_values.job}\n` +
-            `TEL;CELL:${trimmed_values.mobile_number}` +
-            `${trimmed_values.phone_number ? `;WORK:${trimmed_values.phone_number}` : ''}` +
-            `${trimmed_values.fax_number ? `;FAX:${trimmed_values.fax_number}` : ''}\n` +
-            `EMAIL:${trimmed_values.email}\n` +
-            `ADR:;;${trimmed_values.street};${trimmed_values.city};${trimmed_values.state};` +
-            `${trimmed_values.zip};${trimmed_values.country}\nURL:${trimmed_values.website}\nEND:VCARD`);
+        const encoded_string = encodeURIComponent(
+            'BEGIN:VCARD\nVERSION:2.1\n' +
+                `N:${trimmed_values.last_name};${trimmed_values.first_name}\n` +
+                `FN:${trimmed_values.first_name} ${trimmed_values.last_name}\n` +
+                `ORG:${trimmed_values.company}\nTITLE:${trimmed_values.job}\n` +
+                `TEL;CELL:${trimmed_values.mobile_number}` +
+                `${trimmed_values.phone_number ? `;WORK:${trimmed_values.phone_number}` : ''}` +
+                `${trimmed_values.fax_number ? `;FAX:${trimmed_values.fax_number}` : ''}\n` +
+                `EMAIL:${trimmed_values.email}\n` +
+                `ADR:;;${trimmed_values.street};${trimmed_values.city};${trimmed_values.state};` +
+                `${trimmed_values.zip};${trimmed_values.country}\nURL:${trimmed_values.website}\nEND:VCARD`
+        );
         onDataSubmit(encoded_string);
     };
 
@@ -168,12 +170,11 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
                                 <div className={'col-9'}>
                                     {second_field_name ? (
                                         <div
-                                            className={`row${first_field_name === 'phone_number' ? ' align-right' : ''
-                                                }`}
+                                            className={`row${
+                                                first_field_name === 'phone_number' ? ' align-right' : ''
+                                            }`}
                                         >
-                                            <div
-                                                className={`col-${first_field_name === 'phone_number' ? '' : '6'}`}
-                                            >
+                                            <div className={`col-${first_field_name === 'phone_number' ? '' : '6'}`}>
                                                 <input
                                                     id={first_field_name}
                                                     type={field_type}
@@ -182,9 +183,7 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
                                                     {...formik.getFieldProps(first_field_name)}
                                                 />
                                             </div>
-                                            <div
-                                                className={`col-${first_field_name === 'phone_number' ? '' : '6'}`}
-                                            >
+                                            <div className={`col-${first_field_name === 'phone_number' ? '' : '6'}`}>
                                                 <input
                                                     id={second_field_name}
                                                     type={field_type}

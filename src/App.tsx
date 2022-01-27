@@ -17,7 +17,7 @@ export const App = () => {
             <main>
                 <Form onDataSubmit={setVCardData} />
                 <div className='temporary-vCard-display'>
-                    <QRCodeGenerator data={vCardData} color={color}/>
+                    <QRCodeGenerator data={vCardData} color={color} />
                     <QRParamsSelector onColorSelect={setColor} />
                 </div>
             </main>

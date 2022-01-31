@@ -5,6 +5,7 @@ import Header from 'components/Header/Header';
 import Footer from 'components/Footer/Footer';
 import { QRCodeGenerator } from 'components/QRCodeGenerator/QRCodeGenerator';
 import { QRParamsSelector } from 'components/QRCodeGenerator/QRParamsSelector';
+import { QRDownload } from 'components/QRCodeGenerator/QRCodeDownload';
 
 export const App = () => {
     const [vCardData, setVCardData] = useState<string>('');
@@ -37,7 +38,8 @@ export const App = () => {
                 <Form onDataSubmit={handleFormSubmit} />
                 <div className='temporary-vCard-display'>
                     <QRCodeGenerator data={vCardData} color={color} setQRLink={setQRLink} QR_link={QR_link} />
-                    <QRParamsSelector onColorSelect={setColor} QR_link={QR_link} />
+                    <QRParamsSelector onColorSelect={setColor} />
+                    <QRDownload QR_link={QR_link} />
                 </div>
             </main>
             <Footer />

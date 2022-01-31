@@ -1,7 +1,6 @@
 import React from 'react';
 import './QRCodeGenerator.scss';
 
-
 const colors: TColors = [
     { title: 'black', rgb_decimal_code: '0-0-0' },
     { title: 'red', rgb_decimal_code: '255-0-0' },
@@ -17,10 +16,32 @@ type TColors = {
 
 type TQRParamsSelectorProps = {
     onColorSelect: (color: string) => void;
+    QR_link: string;
 };
 
-export const QRParamsSelector: React.FC<TQRParamsSelectorProps> = ({ onColorSelect }) => {
+export const QRParamsSelector: React.FC<TQRParamsSelectorProps> = ({ onColorSelect, QR_link }) => {
     const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => onColorSelect(e.currentTarget.value);
+
+    const download = async () => {
+        // Copied from https://www.codegrepper.com/code-examples/javascript/download+file+from+url+in+react
+        const result: Response = await fetch(QR_link);
+        const blob: Blob = await result.blob();
+
+        // Create blob link to download
+        const url = window.URL.createObjectURL(new Blob([blob]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'qr_code.png');
+
+        // Append to html link element page
+        document.body.appendChild(link);
+
+        // Start download
+        link.click();
+
+        // Clean up and remove the link
+        link.parentNode?.removeChild(link);
+    };
 
     return (
         <div className='qr-params-selector'>
@@ -36,13 +57,14 @@ export const QRParamsSelector: React.FC<TQRParamsSelectorProps> = ({ onColorSele
                                 onChange={handleValueChange}
                                 defaultChecked={!!(color.title === 'Black')}
                             />
-                            <div className={`color_btn_${color.title}`}> 
-                            {color.title}
-                            </div>
+                            <div className={`color_btn_${color.title}`}>{color.title}</div>
                         </label>
                     </span>
                 ))}
             </div>
+            <button className='download-qr-button' onClick={download}>
+                Download
+            </button>
         </div>
     );
 };

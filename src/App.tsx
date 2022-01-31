@@ -28,14 +28,16 @@ export const App = () => {
         setShouldAudioPlay(true);
     };
 
+    const [QR_link, setQRLink] = useState('');
+
     return (
         <div className='App'>
             <Header />
             <main>
                 <Form onDataSubmit={handleFormSubmit} />
                 <div className='temporary-vCard-display'>
-                    <QRCodeGenerator data={vCardData} color={color} />
-                    <QRParamsSelector onColorSelect={setColor} />
+                    <QRCodeGenerator data={vCardData} color={color} setQRLink={setQRLink} QR_link={QR_link} />
+                    <QRParamsSelector onColorSelect={setColor} QR_link={QR_link} />
                 </div>
             </main>
             <Footer />

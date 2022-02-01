@@ -1,4 +1,6 @@
 import React from 'react';
+import './QRCodeGenerator.scss';
+
 
 interface TQRCodeDownloadProps {
     QR_link: string;

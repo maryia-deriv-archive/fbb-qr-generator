@@ -29,6 +29,7 @@ export const App = () => {
         setShouldAudioPlay(true);
     };
 
+
     const [QR_link, setQRLink] = useState('');
 
     return (
@@ -44,9 +45,6 @@ export const App = () => {
             </main>
             <Footer />
             {should_audio_play && <audio autoPlay src='/surprise-track.mp3'></audio>}
-            {/* <footer>
-                <p>© 2022 Foo-Bar-&-Baz, All Rights Reserved.</p>
-            </footer> */}
         </div>
     );
 };

@@ -13,6 +13,10 @@
     border-radius: 5px;
     padding: 30px;
 
+    label {
+        line-height: unset;
+    }
+
     form {
         width: 90%;
 

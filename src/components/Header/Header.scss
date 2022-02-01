@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.header_wrapper {
+    margin: 0px 10px 30px 10px;
+
+    // margin-bottom: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100px;
+    background-color:navajowhite;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px 5px black;
+}
+
+.header_logo {
+    height: 80px;
+    margin: 5px;
+    background-color:white;
+    border-radius: 5px;
+    border: 2px solid black;
+
+    @media (max-width: 500px) {
+        display: none;
+    }
+}
+
+.header_logo p {
+    line-height: 15px;
+    font-size: 13px;
+    font-family: inherit;
+    margin: 0px;
+    padding: 5px;
+
+    @media (max-width: 600px) {
+        font-size: 10px;
+        
+    }
+}
+
+.title_wrapprer {
+    text-align: center;
+}
+.title_wrapprer p {
+    line-height: 15px;
+    font-size: 15px;
+
+    @media (max-width: 600px) {
+        font-size: 10px;
+    }
+}
+
+
+.logo_wrapper img {
+    max-width: 140px;
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+    border: 5px solid black;
+}
+

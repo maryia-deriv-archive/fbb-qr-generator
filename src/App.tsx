@@ -1,31 +1,52 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.scss';
 import { Form } from 'components/Form/Form';
+import Header from 'components/Header/Header';
+import Footer from 'components/Footer/Footer';
+import { QRCodeGenerator } from 'components/QRCodeGenerator/QRCodeGenerator';
+import { QRParamsSelector } from 'components/QRCodeGenerator/QRParamsSelector';
+import { QRDownload } from 'components/QRCodeGenerator/QRCodeDownload';
 
 export const App = () => {
-    const [v_card_data, setVCardData] = useState<string>('');
+    const [vCardData, setVCardData] = useState<string>('');
+    const [color, setColor] = useState<string>('');
+    const [should_audio_play, setShouldAudioPlay] = useState<boolean>(false);
 
-    const handleFormData = (v_card_string: string) => {
+    useEffect(() => {
+        let timeout_id: NodeJS.Timeout;
+        if (should_audio_play) {
+            timeout_id = setTimeout(() => {
+                setShouldAudioPlay(false);
+            }, 5000);
+        }
+        return () => {
+            clearTimeout(timeout_id);
+        };
+    }, [should_audio_play]);
+
+    const handleFormSubmit = (v_card_string: string) => {
         setVCardData(v_card_string);
+        setShouldAudioPlay(true);
     };
+
+    const [QR_link, setQRLink] = useState('');
 
     return (
         <div className='App'>
-            <header className='App-header'>
-                <img src='/favicon.ico' alt='logo' />
-                <p>Welcome to the vCard QR Code Generator by Foo-Bar-&-Baz!</p>
-            </header>
+            <Header />
             <main>
-                <Form onDataSubmit={handleFormData} />
+                <Form onDataSubmit={handleFormSubmit} />
                 <div className='temporary-vCard-display'>
-                    <p>&ldquo;{v_card_data}&ldquo;</p>
-                    <p><i> - This v_card_data will be passed to the QR Code Generator</i></p>
+                    <QRCodeGenerator data={vCardData} color={color} setQRLink={setQRLink} QR_link={QR_link} />
+                    <QRParamsSelector onColorSelect={setColor} />
+                    <QRDownload QR_link={QR_link} />
                 </div>
             </main>
-            <footer>
-                <div className="surprise"></div>
+            <Footer />
+            {should_audio_play && <audio autoPlay src='/surprise-track.mp3'></audio>}
+            {/* <footer>
                 <p>© 2022 Foo-Bar-&-Baz, All Rights Reserved.</p>
-            </footer>
+            </footer> */}
         </div>
     );
 };

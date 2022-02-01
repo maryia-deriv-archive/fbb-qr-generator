@@ -36,7 +36,7 @@ const form_rows: TFormRowsData = [
     {
         first_field_name: 'first_name',
         second_field_name: 'last_name',
-        label_text: 'Your Name:',
+        label_text: 'Name:',
         first_field_placeholder: 'First name',
         second_field_placeholder: 'Last name',
     },
@@ -94,18 +94,23 @@ const form_rows: TFormRowsData = [
 
 export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
     const convertValuesToVCardString = (values: TFormValues) => {
-        onDataSubmit(`BEGIN:VCARD
-        VERSION:3.0
-        N:${values.last_name};${values.first_name}
-        FN:${values.first_name} ${values.last_name}
-        ORG:${values.company}
-        TITLE:${values.job}
-        TEL;CELL:${values.mobile_number};WORK:${values.phone_number};FAX:${values.fax_number}
-        EMAIL:${values.email}
-        ADR:;;${values.street};${values.city};${values.state};${values.zip};${values.country}
-        URL:${values.website}
-        END:VCARD
-        `);
+        const trimmed_values = Object.entries(values)
+            .map(entry => [entry[0], entry[1].trim()])
+            .reduce((acc, el) => ({ ...acc, [el[0]]: el[1] }), {} as { [key: string]: string });
+
+        const encoded_string = encodeURIComponent(
+            'BEGIN:VCARD\nVERSION:2.1\n' +
+                `N:${trimmed_values.last_name};${trimmed_values.first_name}\n` +
+                `FN:${trimmed_values.first_name} ${trimmed_values.last_name}\n` +
+                `ORG:${trimmed_values.company}\nTITLE:${trimmed_values.job}\n` +
+                `TEL;CELL:${trimmed_values.mobile_number}` +
+                `${trimmed_values.phone_number ? `;WORK:${trimmed_values.phone_number}` : ''}` +
+                `${trimmed_values.fax_number ? `;FAX:${trimmed_values.fax_number}` : ''}\n` +
+                `EMAIL:${trimmed_values.email}\n` +
+                `ADR:;;${trimmed_values.street};${trimmed_values.city};${trimmed_values.state};` +
+                `${trimmed_values.zip};${trimmed_values.country}\nURL:${trimmed_values.website}\nEND:VCARD`
+        );
+        onDataSubmit(encoded_string);
     };
 
     const formik = useFormik({
@@ -133,7 +138,7 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
     return (
         <div className='form-container'>
             <h1>
-                <p>VCARD QR Code</p>
+                <p className='form_title' >VCARD QR Code</p>
             </h1>
             <form onSubmit={formik.handleSubmit}>
                 {form_rows.map(
@@ -161,16 +166,14 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
                                     <label className='col-3' htmlFor={first_field_name}>
                                         {label_text}
                                     </label>
-                                ) : null}
+                                ) : <div className='col-42' > </div>}
                                 <div className={'col-9'}>
                                     {second_field_name ? (
                                         <div
-                                            className={`row${
-                                                first_field_name === 'phone_number' ? ' align-right' : ''
-                                            }`}
+                                            className={'row'}
                                         >
                                             <div
-                                                className={`col-${first_field_name === 'phone_number' ? '' : '6'}`}
+                                                className={'col-6'}
                                             >
                                                 <input
                                                     id={first_field_name}
@@ -181,7 +184,7 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
                                                 />
                                             </div>
                                             <div
-                                                className={`col-${first_field_name === 'phone_number' ? '' : '6'}`}
+                                                className={'col-6'}
                                             >
                                                 <input
                                                     id={second_field_name}
@@ -207,7 +210,7 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
                     }
                 )}
 
-                <button type='submit'> Generate QR Code </button>
+                <button  className="generate" type='submit'> Generate QR Code </button>
             </form>
         </div>
     );

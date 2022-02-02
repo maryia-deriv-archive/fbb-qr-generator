@@ -29,7 +29,7 @@ export const QRCodeDownload: React.FC<TQRCodeDownloadProps> = React.memo(({ QR_l
     };
 
     return (
-        <button className='download-qr-button' onClick={download}>
+        <button className='download-qr-button' onClick={download} disabled={!QR_link}>
             Download
         </button>
     );

@@ -105,9 +105,9 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, setSurpris
                 `N:${trimmed_values.last_name};${trimmed_values.first_name}\n` +
                 `FN:${trimmed_values.first_name} ${trimmed_values.last_name}\n` +
                 `ORG:${trimmed_values.company}\nTITLE:${trimmed_values.job}\n` +
-                `TEL;CELL:${trimmed_values.mobile_number}` +
-                `${trimmed_values.phone_number ? `;WORK:${trimmed_values.phone_number}` : ''}` +
-                `${trimmed_values.fax_number ? `;FAX:${trimmed_values.fax_number}` : ''}\n` +
+                `TEL;CELL:${trimmed_values.mobile_number}\n` +
+                `${trimmed_values.phone_number ? `TEL;WORK:${trimmed_values.phone_number}` : ''}\n` +
+                `${trimmed_values.fax_number ? `TEL;FAX:${trimmed_values.fax_number}` : ''}\n` +
                 `EMAIL:${trimmed_values.email}\n` +
                 `ADR:;;${trimmed_values.street};${trimmed_values.city};${trimmed_values.state};` +
                 `${trimmed_values.zip};${trimmed_values.country}\nURL:${trimmed_values.website}\nEND:VCARD`

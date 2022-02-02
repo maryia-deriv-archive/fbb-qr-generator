@@ -11,10 +11,11 @@ export const App = () => {
     const [vCardData, setVCardData] = useState<string>('');
     const [color, setColor] = useState<string>('');
     const [size, setSize] = useState<string>('');
-    const [format, setFormat] = useState<string>('');
+    const [format, setFormat] = useState<string>('png');
     const [start, setStart] = useState<number[]>([]);
     const [should_show_surprise, setShouldShowSurprise] = useState<boolean>(false);
     const [should_audio_play, setShouldAudioPlay] = useState<boolean>(false);
+    const [QR_link, setQRLink] = useState('');
 
     useEffect(() => {
         let surprise_timeout_id: NodeJS.Timeout;
@@ -58,8 +59,6 @@ export const App = () => {
         setShouldAudioPlay(true);
         makeSurpriseRun();
     };
-
-    const [QR_link, setQRLink] = useState('');
 
     return (
         <div className='App'>

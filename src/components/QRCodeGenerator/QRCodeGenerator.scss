@@ -5,16 +5,24 @@
     display: flex;
     justify-content: center;
 
-    img {
+    .qr-code {
         width: 250px;
         height: 250px;
 
-        @media(max-width: 410px) {
+        @media (max-width: 410px) {
             width: 150px;
             height: 150px;
         }
-    }
 
+        &__error {
+            width: 250px;
+            height: 250px;
+            color: red;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+    }
 }
 
 .color_btn_black {
@@ -44,24 +52,24 @@
 }
 
 .form_radio_btn {
-	margin-right: 10px;
+    margin-right: 10px;
     margin-top: 10px;
 }
 
-.form_radio_btn input[type=radio] {
-	display: none;
+.form_radio_btn input[type='radio'] {
+    display: none;
 }
 .form_radio_btn label {
     background: navajowhite;
     box-shadow: 2px 2px 2px 2px black;
-	display: inline-block;
-	cursor: pointer;
-	padding: 0px 10px;
-	line-height: 34px;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0px 10px;
+    line-height: 34px;
     border: 10px double black;
-	border-radius: 6px;
-	user-select: none;
-    transition: .1s;
+    border-radius: 6px;
+    user-select: none;
+    transition: 0.1s;
 }
 
 .form_radio_btn label.selected {
@@ -72,9 +80,9 @@
     line-height: 32px;
     text-align: center;
 }
- 
+
 .download-qr-button {
-    background-color:navajowhite;
+    background-color: navajowhite;
     border-radius: 5px;
     margin-top: 10px;
     padding: 10px;
@@ -82,7 +90,7 @@
     box-shadow: 2px 2px 2px 2px black;
     font-family: inherit;
     cursor: pointer;
-    transition: .2s;
+    transition: 0.2s;
 }
 
 .download-qr-button:active {

@@ -48,28 +48,27 @@ export const QRParamsSelector: React.FC<TQRParamsSelectorProps> = ({ onColorSele
                 <div key={i} className={'param-picker'}>
                     <p>Please select {param[0]}:</p>
                     <div className='btn-block'>
-                        {param[1].options.map((option, idx) => (
-                            <div className='form_radio_btn' key={idx}>
-                                <label>
-                                    <input
-                                        type='radio'
-                                        name={param[0]}
-                                        value={(option as TColors[0]).rgb_decimal_code || option.toString()}
-                                        onChange={e => onParamSelect(e.currentTarget.value, param[0])}
-                                        defaultChecked={
-                                            !!(((option as TColors[0]).title || option) === param[1].default)
-                                        }
-                                    />
-                                    <div
-                                        className={
-                                            (option as TColors[0]).title && `color_btn_${(option as TColors[0]).title}`
-                                        }
-                                    >
-                                        {(option as TColors[0]).title || option}
-                                    </div>
-                                </label>
-                            </div>
-                        ))}
+                        {param[1].options.map((option, idx) => {
+                            const color_rgb_decimal_code = (option as TColors[0]).rgb_decimal_code;
+                            const color_title = (option as TColors[0]).title;
+
+                            return (
+                                <div className='form_radio_btn' key={idx}>
+                                    <label>
+                                        <input
+                                            type='radio'
+                                            name={param[0]}
+                                            value={color_rgb_decimal_code || `${option}`}
+                                            onChange={e => onParamSelect(e.currentTarget.value, param[0])}
+                                            defaultChecked={!!((color_title || option) === param[1].default)}
+                                        />
+                                        <div className={color_title && `color_btn_${color_title}`}>
+                                            {color_title || option}
+                                        </div>
+                                    </label>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             ))}

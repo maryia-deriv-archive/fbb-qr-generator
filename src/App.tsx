@@ -19,22 +19,15 @@ export const App = () => {
 
     useEffect(() => {
         let surprise_timeout_id: NodeJS.Timeout;
-        let audio_timeout_id: NodeJS.Timeout;
         if (should_show_surprise) {
             surprise_timeout_id = setTimeout(() => {
                 setShouldShowSurprise(false);
             }, 2000);
         }
-        if (should_audio_play) {
-            audio_timeout_id = setTimeout(() => {
-                setShouldAudioPlay(false);
-            }, 5000);
-        }
         return () => {
             if (surprise_timeout_id) clearTimeout(surprise_timeout_id);
-            if (audio_timeout_id) clearTimeout(audio_timeout_id);
         };
-    }, [should_audio_play, should_show_surprise]);
+    }, [should_show_surprise]);
 
     const makeSurpriseRun = () => {
         const end = [
@@ -56,8 +49,11 @@ export const App = () => {
 
     const handleFormSubmit = (v_card_string: string) => {
         setVCardData(v_card_string);
-        setShouldAudioPlay(true);
         makeSurpriseRun();
+        setShouldAudioPlay(true);
+        setTimeout(() => {
+            setShouldAudioPlay(false);
+        }, 2000);
     };
 
     return (

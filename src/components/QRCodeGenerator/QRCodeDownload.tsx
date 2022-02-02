@@ -1,13 +1,12 @@
 import React from 'react';
 import './QRCodeGenerator.scss';
 
-
 interface TQRCodeDownloadProps {
     QR_link: string;
     format: string;
 }
 
-export const QRCodeDownload: React.FC<TQRCodeDownloadProps> = ({ QR_link, format }) => {
+export const QRCodeDownload: React.FC<TQRCodeDownloadProps> = React.memo(({ QR_link, format }: TQRCodeDownloadProps) => {
     const download = async () => {
         // Copied from https://www.codegrepper.com/code-examples/javascript/download+file+from+url+in+react
         const result: Response = await fetch(QR_link);
@@ -34,4 +33,6 @@ export const QRCodeDownload: React.FC<TQRCodeDownloadProps> = ({ QR_link, format
             Download
         </button>
     );
-};
+});
+
+QRCodeDownload.displayName = 'QRCodeDownload';

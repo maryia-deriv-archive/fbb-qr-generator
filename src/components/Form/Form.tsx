@@ -94,7 +94,7 @@ type TFormProps = {
     setSurpriseStart: (top: number, left: number) => void;
 };
 
-export const Form: React.FC<TFormProps> = ({ onDataSubmit, setSurpriseStart }) => {
+export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, setSurpriseStart }: TFormProps) => {
     const convertValuesToVCardString = (values: TFormValues) => {
         const trimmed_values = Object.entries(values)
             .map(entry => [entry[0], entry[1].trim()])
@@ -237,4 +237,6 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit, setSurpriseStart }) =
             </form>
         </div>
     );
-};
+});
+
+Form.displayName = 'Form';

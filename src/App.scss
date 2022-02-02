@@ -9,7 +9,6 @@ body {
 
 .App {
     display: flex;
-    // align-items: center;
     flex-direction: column;
     justify-content: space-between;
     background-color: cadetblue;
@@ -72,15 +71,10 @@ header {
 }
 
 footer {
-    // background: linear-gradient(to bottom, $bGFirstColor, rgba(14, 149, 167, 0.7));
     text-align: center;
     font-size: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
     text-transform: uppercase;
-
-    // p {
-    //     @include text($fontFamily, 16px, 600, 46px, $captionTextColor);
-    // }
 }

@@ -45,28 +45,32 @@ export const QRParamsSelector: React.FC<TQRParamsSelectorProps> = ({ onColorSele
     return (
         <div className='qr-params-selector'>
             {Object.entries(params).map((param, i) => (
-                <div key={i} className={`${param[0]}-picker`}>
+                <div key={i} className={'param-picker'}>
                     <p>Please select {param[0]}:</p>
-                    {param[1].options.map((option, idx) => (
-                        <span className='form_radio_btn' key={idx}>
-                            <label>
-                                <input
-                                    type='radio'
-                                    name={param[0]}
-                                    value={(option as TColors[0]).rgb_decimal_code || option.toString()}
-                                    onChange={e => onParamSelect(e.currentTarget.value, param[0])}
-                                    defaultChecked={!!(((option as TColors[0]).title || option) === param[1].default)}
-                                />
-                                <div
-                                    className={
-                                        (option as TColors[0]).title && `color_btn_${(option as TColors[0]).title}`
-                                    }
-                                >
-                                    {(option as TColors[0]).title || option}
-                                </div>
-                            </label>
-                        </span>
-                    ))}
+                    <div className='btn-block'>
+                        {param[1].options.map((option, idx) => (
+                            <div className='form_radio_btn' key={idx}>
+                                <label>
+                                    <input
+                                        type='radio'
+                                        name={param[0]}
+                                        value={(option as TColors[0]).rgb_decimal_code || option.toString()}
+                                        onChange={e => onParamSelect(e.currentTarget.value, param[0])}
+                                        defaultChecked={
+                                            !!(((option as TColors[0]).title || option) === param[1].default)
+                                        }
+                                    />
+                                    <div
+                                        className={
+                                            (option as TColors[0]).title && `color_btn_${(option as TColors[0]).title}`
+                                        }
+                                    >
+                                        {(option as TColors[0]).title || option}
+                                    </div>
+                                </label>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             ))}
         </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './QRCodeGenerator.scss';
 
 type TColors = {
@@ -10,6 +10,7 @@ type TParams = {
     [key: string]: {
         options: TColors | string[];
         default: string;
+        selected: string;
     };
 };
 
@@ -24,12 +25,6 @@ const sizes: string[] = ['100x100', '200x200', '300x300', '600x600', '800x800', 
 const formats: string[] = ['png', 'svg', 'gif', 'jpg', 'jpeg'];
 const param_types = ['color', 'size', 'format'];
 
-const params: TParams = {
-    [param_types[0]]: { options: colors, default: 'black' },
-    [param_types[1]]: { options: sizes, default: '600x600' },
-    [param_types[2]]: { options: formats, default: 'png' },
-};
-
 type TQRParamsSelectorProps = {
     onColorSelect: (color: string) => void;
     onSizeSelect: (size: string) => void;
@@ -37,7 +32,14 @@ type TQRParamsSelectorProps = {
 };
 
 export const QRParamsSelector: React.FC<TQRParamsSelectorProps> = ({ onColorSelect, onSizeSelect, onFormatSelect }) => {
+    const [params, setParams] = useState<TParams>({
+        [param_types[0]]: { options: colors, default: 'black', selected: '0-0-0' },
+        [param_types[1]]: { options: sizes, default: '600x600', selected: '600x600' },
+        [param_types[2]]: { options: formats, default: 'png', selected: 'png' },
+    });
+
     const onParamSelect = (value: string, param_type: string) => {
+        setParams({ ...params, [param_type]: { ...params[param_type], selected: value } });
         if (param_type === 'color') onColorSelect(value);
         else if (param_type === 'size') onSizeSelect(value);
         else if (param_type === 'format') onFormatSelect(value);
@@ -51,14 +53,15 @@ export const QRParamsSelector: React.FC<TQRParamsSelectorProps> = ({ onColorSele
                         {param[1].options.map((option, idx) => {
                             const color_rgb_decimal_code = (option as TColors[0]).rgb_decimal_code;
                             const color_title = (option as TColors[0]).title;
+                            const input_value = color_rgb_decimal_code || `${option}`;
 
                             return (
                                 <div className='form_radio_btn' key={idx}>
-                                    <label>
+                                    <label className={input_value === param[1].selected ? 'selected' : undefined}>
                                         <input
                                             type='radio'
                                             name={param[0]}
-                                            value={color_rgb_decimal_code || `${option}`}
+                                            value={input_value}
                                             onChange={e => onParamSelect(e.currentTarget.value, param[0])}
                                             defaultChecked={!!((color_title || option) === param[1].default)}
                                         />

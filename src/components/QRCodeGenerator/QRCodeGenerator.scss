@@ -65,7 +65,7 @@
     transition: .1s;
 }
 
-.form_radio_btn label:active {
+.form_radio_btn label.selected {
     box-shadow: 0px 0px 0px 0px black;
 }
 

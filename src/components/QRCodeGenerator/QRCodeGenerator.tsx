@@ -1,33 +1,59 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './QRCodeGenerator.scss';
 
 interface TQRCodeGeneratorProps {
     data: string;
     color: string;
+    size: string;
+    format: string;
     setQRLink: (params: string) => void;
     QR_link: string;
 }
 
-export const QRCodeGenerator: React.FC<TQRCodeGeneratorProps> = ({ data, color, setQRLink, QR_link }) => {
-    const getQrSrc = (_data: string, _color: string) => {
-        setQRLink(
-            `https://api.qrserver.com/v1/create-qr-code/?data=${_data || 'Hello'}&color=${
+export const QRCodeGenerator: React.FC<TQRCodeGeneratorProps> = React.memo(
+    ({ data, color, size, format, setQRLink, QR_link }: TQRCodeGeneratorProps) => {
+        const [error_message, setErrorMessage] = useState<string>('');
+        const [is_loading, setIsLoading] = useState<boolean>(false);
+
+        const getQrSrc = (_data?: string, _color?: string, _size?: string, _format?: string) => {
+            const qr_url = `https://api.qrserver.com/v1/create-qr-code/?data=${_data || 'Hello'}&color=${
                 _color || '0-0-0'
-            }&size=600x600`
+            }&size=${_size || '600x600'}&format=${_format || 'png'}&margin=30`;
+            setIsLoading(true);
+            fetch(qr_url)
+                .then(({ url }: Response) => {
+                    setTimeout(() => {
+                        setIsLoading(false);
+                    }, 400);
+                    setQRLink(url);
+                })
+                .catch((error: Error) => {
+                    setIsLoading(false);
+                    setErrorMessage(error.message);
+                });
+        };
+
+        useEffect(() => {
+            getQrSrc(data, color, size, format);
+        }, [data, color, size, format]);
+
+        return (
+            <div className='qr-code-image'>
+                {error_message ? (
+                    <div className='qr-code__error'>
+                        <p>Oops, error &apos;{error_message}&apos; occured.</p>
+                        <p>Please try again.</p>
+                    </div>
+                ) : (
+                    <img
+                        className='qr-code'
+                        src={QR_link && !is_loading ? QR_link : 'preloader.gif'}
+                        alt={QR_link && !is_loading ? 'qr-code' : 'preloader'}
+                    />
+                )}
+            </div>
         );
-    };
+    }
+);
 
-    useEffect(() => {
-        getQrSrc(data, color);
-    }, [data, color]);
-
-    return (
-        <div className='qr-code-image'>
-            <img
-                className='qr-code'
-                src={QR_link ? QR_link : 'placeholder.png'}
-                alt={QR_link ? 'qr-code' : 'placeholder'}
-            />
-        </div>
-    );
-};
+QRCodeGenerator.displayName = 'QRCodeGenerator';

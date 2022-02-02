@@ -67,6 +67,10 @@
     background-color:#e3e3e3;
     border-radius: 5px;
     overflow: hidden;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
 }
 
 .form_title::before {
@@ -152,32 +156,15 @@ input:valid {
     box-shadow: 0px 0px 0px 0px black;
 }
 
-.dot_left {
-    position: relative;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: black;
-}
-
-.dot_minus {
-    position: absolute;
-    top: 4px;
-    width: 10px;
-    height: 2px;
-    background-color: grey;
-}
-
-.dot_plus {
-    position: absolute;
-    right: 4px;
-    width: 2px;
-    height: 10px;
-    background-color: grey;
-}
-
-.screw_left {
+.screw-left__form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.error-message {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    color: red;
 }

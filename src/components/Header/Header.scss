@@ -138,34 +138,3 @@
     box-shadow: 0px 0px 0px 0px black;
 
 }
-
-.dot_left {
-    position: relative;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: black;
-}
-
-.dot_minus {
-    position: absolute;
-    top: 4px;
-    width: 10px;
-    height: 2px;
-    background-color: grey;
-}
-
-.dot_plus {
-    position: absolute;
-    right: 4px;
-    width: 2px;
-    height: 10px;
-    background-color: grey;
-}
-
-.screw_left {
-    padding: 2px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}

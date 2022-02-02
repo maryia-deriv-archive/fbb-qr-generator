@@ -1,6 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import './Form.scss';
+import { MetallicTitle } from 'components/MetallicTitle/MetallicTitle';
 
 type TFormRowsData = {
     first_field_name: string;
@@ -26,10 +27,6 @@ type TFormValues = {
     state: string;
     country: string;
     website: string;
-};
-
-type TFormProps = {
-    onDataSubmit: (v_card_string: string) => void;
 };
 
 const form_rows: TFormRowsData = [
@@ -92,7 +89,12 @@ const form_rows: TFormRowsData = [
     },
 ];
 
-export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
+type TFormProps = {
+    onDataSubmit: (v_card_string: string) => void;
+    setSurpriseStart: (top: number, left: number) => void;
+};
+
+export const Form: React.FC<TFormProps> = ({ onDataSubmit, setSurpriseStart }) => {
     const convertValuesToVCardString = (values: TFormValues) => {
         const trimmed_values = Object.entries(values)
             .map(entry => [entry[0], entry[1].trim()])
@@ -100,15 +102,15 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
 
         const encoded_string = encodeURIComponent(
             'BEGIN:VCARD\nVERSION:2.1\n' +
-            `N:${trimmed_values.last_name};${trimmed_values.first_name}\n` +
-            `FN:${trimmed_values.first_name} ${trimmed_values.last_name}\n` +
-            `ORG:${trimmed_values.company}\nTITLE:${trimmed_values.job}\n` +
-            `TEL;CELL:${trimmed_values.mobile_number}` +
-            `${trimmed_values.phone_number ? `;WORK:${trimmed_values.phone_number}` : ''}` +
-            `${trimmed_values.fax_number ? `;FAX:${trimmed_values.fax_number}` : ''}\n` +
-            `EMAIL:${trimmed_values.email}\n` +
-            `ADR:;;${trimmed_values.street};${trimmed_values.city};${trimmed_values.state};` +
-            `${trimmed_values.zip};${trimmed_values.country}\nURL:${trimmed_values.website}\nEND:VCARD`
+                `N:${trimmed_values.last_name};${trimmed_values.first_name}\n` +
+                `FN:${trimmed_values.first_name} ${trimmed_values.last_name}\n` +
+                `ORG:${trimmed_values.company}\nTITLE:${trimmed_values.job}\n` +
+                `TEL;CELL:${trimmed_values.mobile_number}` +
+                `${trimmed_values.phone_number ? `;WORK:${trimmed_values.phone_number}` : ''}` +
+                `${trimmed_values.fax_number ? `;FAX:${trimmed_values.fax_number}` : ''}\n` +
+                `EMAIL:${trimmed_values.email}\n` +
+                `ADR:;;${trimmed_values.street};${trimmed_values.city};${trimmed_values.state};` +
+                `${trimmed_values.zip};${trimmed_values.country}\nURL:${trimmed_values.website}\nEND:VCARD`
         );
         onDataSubmit(encoded_string);
     };
@@ -130,6 +132,13 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
             country: '',
             website: '',
         },
+        validate: values => {
+            if (values.website && !/^(www\.|http:\/\/|https:\/\/).+\..{2,}$/i.test(values.website)) {
+                return {
+                    website: 'Invalid URL.',
+                };
+            }
+        },
         onSubmit: values => {
             convertValuesToVCardString(values);
         },
@@ -138,30 +147,9 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
     return (
         <div className='form-container'>
             <h1>
-                <p className='form_title' >
-                    <div className='screw_left'>
-                        <div className='dot_left'>
-                            <div className='dot_minus'></div>
-                            <div className='dot_plus'></div>
-                        </div>
-                        <div className='dot_left'>
-                            <div className='dot_minus'></div>
-                            <div className='dot_plus'></div>
-                        </div>
-                    </div>
-                    VCARD QR Code
-                    <div className='screw_left'>
-                        <div className='dot_left'>
-                            <div className='dot_minus'></div>
-                            <div className='dot_plus'></div>
-                        </div>
-                        <div className='dot_left'>
-                            <div className='dot_minus'></div>
-                            <div className='dot_plus'></div>
-                        </div>
-                    </div>
-                </p>
-                <div className='dot_right'></div>
+                <div className='form_title'>
+                    <MetallicTitle className='screw-left__form'>VCARD QR Code</MetallicTitle>
+                </div>
             </h1>
             <form onSubmit={formik.handleSubmit}>
                 {form_rows.map(
@@ -176,7 +164,7 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
                         },
                         i
                     ) => {
-                        const field_type = input_type ? input_type : 'text';
+                        const field_type = input_type && input_type !== 'url' ? input_type : 'text';
                         const input_mode_type = input_type
                             ? (input_type as keyof React.HTMLAttributes<HTMLInputElement>['inputMode'])
                             : 'text';
@@ -189,15 +177,13 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
                                     <label className='col-3' htmlFor={first_field_name}>
                                         {label_text}
                                     </label>
-                                ) : <div className='col-42' > </div>}
+                                ) : (
+                                    <div className='col-42'> </div>
+                                )}
                                 <div className={'col-9'}>
                                     {second_field_name ? (
-                                        <div
-                                            className={'row'}
-                                        >
-                                            <div
-                                                className={'col-6'}
-                                            >
+                                        <div className={'row'}>
+                                            <div className={'col-6'}>
                                                 <input
                                                     id={first_field_name}
                                                     type={field_type}
@@ -206,9 +192,7 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
                                                     {...formik.getFieldProps(first_field_name)}
                                                 />
                                             </div>
-                                            <div
-                                                className={'col-6'}
-                                            >
+                                            <div className={'col-6'}>
                                                 <input
                                                     id={second_field_name}
                                                     type={field_type}
@@ -219,13 +203,18 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
                                             </div>
                                         </div>
                                     ) : (
-                                        <input
-                                            id={first_field_name}
-                                            type={field_type}
-                                            inputMode={input_mode_type}
-                                            placeholder={first_placeholder}
-                                            {...formik.getFieldProps(first_field_name)}
-                                        />
+                                        <div>
+                                            <input
+                                                id={first_field_name}
+                                                type={field_type}
+                                                inputMode={input_mode_type}
+                                                placeholder={first_placeholder}
+                                                {...formik.getFieldProps(first_field_name)}
+                                            />
+                                            {input_type === 'url' && formik.touched.website && formik.errors.website ? (
+                                                <div className={'error-message'}>{formik.errors.website}</div>
+                                            ) : null}
+                                        </div>
                                     )}
                                 </div>
                             </div>
@@ -233,7 +222,18 @@ export const Form: React.FC<TFormProps> = ({ onDataSubmit }) => {
                     }
                 )}
 
-                <button className="generate" type='submit'> Generate QR Code </button>
+                <button
+                    className='generate'
+                    type='submit'
+                    onClick={e => {
+                        setSurpriseStart(
+                            (e.target as HTMLButtonElement).offsetTop,
+                            (e.target as HTMLButtonElement).offsetLeft + 100
+                        );
+                    }}
+                >
+                    Generate QR Code
+                </button>
             </form>
         </div>
     );

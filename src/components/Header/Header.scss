@@ -4,8 +4,6 @@
     position: sticky;
     top: 0px;
     margin: 0px 10px 30px 10px;
-
-    // margin-bottom: 20px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -19,7 +17,6 @@
 .header_logo {
     display: flex;
     position: relative;
-    // height: 80px;
     min-width: 157px;
     margin: 5px;
     background-color:#e3e3e3;
@@ -68,13 +65,6 @@
         left: 100%;
     }
 }
-
-
-// .header_logo:hover::before {
-//     left: 100%;
-
-// }
-
 
 .header_logo p {
     width: 100%;

@@ -22,6 +22,7 @@ export const QRCodeGenerator: React.FC<TQRCodeGeneratorProps> = React.memo(
             setIsLoading(true);
             fetch(qr_url)
                 .then(({ url }: Response) => {
+                    if (error_message) setErrorMessage('');
                     setTimeout(() => {
                         setIsLoading(false);
                     }, 400);
@@ -45,7 +46,7 @@ export const QRCodeGenerator: React.FC<TQRCodeGeneratorProps> = React.memo(
                         <p>Please try again.</p>
                     </div>
                 ) : QR_link && !is_loading ? (
-                    <img className='qr-code' src={QR_link} alt={'qr-code'} />
+                    <img className='qr-code' src={QR_link || 'placeholder.png'} alt={'qr-code'} />
                 ) : (
                     <div className={'preloader-container'}>
                         <img className={'preloader'} src={'preloader.gif'} alt={'preloader'} />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 import { Form } from 'components/Form/Form';
 import Header from 'components/Header/Header';
@@ -6,54 +6,19 @@ import Footer from 'components/Footer/Footer';
 import { QRCodeGenerator } from 'components/QRCodeGenerator/QRCodeGenerator';
 import { QRParamsSelector } from 'components/QRCodeGenerator/QRParamsSelector';
 import { QRCodeDownload } from 'components/QRCodeGenerator/QRCodeDownload';
+import { Surprise } from 'components/Surprise/Surprise';
 
 export const App = () => {
     const [vCardData, setVCardData] = useState<string>('');
     const [color, setColor] = useState<string>('');
     const [size, setSize] = useState<string>('');
     const [format, setFormat] = useState<string>('png');
-    const [start, setStart] = useState<number[]>([]);
-    const [should_show_surprise, setShouldShowSurprise] = useState<boolean>(false);
-    const [should_audio_play, setShouldAudioPlay] = useState<boolean>(false);
     const [QR_link, setQRLink] = useState('');
-
-    useEffect(() => {
-        let surprise_timeout_id: NodeJS.Timeout;
-        if (should_show_surprise) {
-            surprise_timeout_id = setTimeout(() => {
-                setShouldShowSurprise(false);
-            }, 2000);
-        }
-        return () => {
-            if (surprise_timeout_id) clearTimeout(surprise_timeout_id);
-        };
-    }, [should_show_surprise]);
-
-    const makeSurpriseRun = () => {
-        const end = [
-            (document.querySelector('.qr-code') as HTMLImageElement)?.offsetTop + 70,
-            (document.querySelector('.qr-code') as HTMLImageElement)?.offsetLeft + 70,
-        ];
-        document.querySelector('.surprise')?.animate(
-            [
-                { top: `${start[0]}px`, left: `${start[1]}px` },
-                { top: `${end[0]}px`, left: `${end[1]}px` },
-            ],
-            {
-                duration: 2000,
-                fill: 'both',
-                easing: 'linear',
-            }
-        );
-    };
+    const [should_show_surprise, setShouldShowSurprise] = useState<boolean>(false);
+    const [start, setStart] = useState<number[]>([]);
 
     const handleFormSubmit = (v_card_string: string) => {
         setVCardData(v_card_string);
-        makeSurpriseRun();
-        setShouldAudioPlay(true);
-        setTimeout(() => {
-            setShouldAudioPlay(false);
-        }, 2000);
     };
 
     return (
@@ -81,8 +46,11 @@ export const App = () => {
                 </div>
             </main>
             <Footer />
-            {should_show_surprise && <div className='surprise'></div>}
-            {should_audio_play && <audio autoPlay src='/surprise-track.mp3'></audio>}
+            <Surprise
+                should_show_surprise={should_show_surprise}
+                setShouldShowSurprise={setShouldShowSurprise}
+                startPosition={start}
+            />
         </div>
     );
 };

@@ -41,7 +41,7 @@ export const QRCodeGenerator: React.FC<TQRCodeGeneratorProps> = React.memo(
             <div className='qr-code-image'>
                 {error_message ? (
                     <div className='qr-code__error'>
-                        <p>Oops, error &apos;{error_message}&apos; occured.</p>
+                        <p>{error_message}</p>
                         <p>Please try again.</p>
                     </div>
                 ) : (

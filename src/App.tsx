@@ -19,6 +19,7 @@ export const App = () => {
 
     const handleFormSubmit = (v_card_string: string) => {
         setVCardData(v_card_string);
+        if (start) setShouldShowSurprise(true);
     };
 
     return (
@@ -29,7 +30,6 @@ export const App = () => {
                     onDataSubmit={handleFormSubmit}
                     setSurpriseStart={(_top: number, _left: number) => {
                         setStart([_top, _left]);
-                        setShouldShowSurprise(true);
                     }}
                 />
                 <div className='temporary-vCard-display'>
@@ -50,6 +50,7 @@ export const App = () => {
                 should_show_surprise={should_show_surprise}
                 setShouldShowSurprise={setShouldShowSurprise}
                 startPosition={start}
+                destination={document.querySelector('.qr-code-image')}
             />
         </div>
     );

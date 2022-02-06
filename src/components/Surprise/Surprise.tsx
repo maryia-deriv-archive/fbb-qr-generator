@@ -5,14 +5,15 @@ type TSurpriseProps = {
     should_show_surprise: boolean;
     setShouldShowSurprise: (should_show_surprise: boolean) => void;
     startPosition: number[];
+    destination: HTMLElement | null;
 };
 
 export const Surprise: React.FC<TSurpriseProps> = React.memo(
-    ({ should_show_surprise, setShouldShowSurprise, startPosition }: TSurpriseProps) => {
+    ({ should_show_surprise, setShouldShowSurprise, startPosition, destination }: TSurpriseProps) => {
         const makeSurpriseRun = () => {
             const end = [
-                (document.querySelector('.qr-code') as HTMLImageElement)?.offsetTop + 70,
-                (document.querySelector('.qr-code') as HTMLImageElement)?.offsetLeft + 70,
+                (destination as HTMLElement)?.offsetTop + 70,
+                (destination as HTMLElement)?.offsetLeft + 70,
             ];
             document.querySelector('.surprise')?.animate(
                 [

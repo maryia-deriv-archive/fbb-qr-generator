@@ -44,12 +44,12 @@ export const QRCodeGenerator: React.FC<TQRCodeGeneratorProps> = React.memo(
                         <p>{error_message}</p>
                         <p>Please try again.</p>
                     </div>
+                ) : QR_link && !is_loading ? (
+                    <img className='qr-code' src={QR_link} alt={'qr-code'} />
                 ) : (
-                    <img
-                        className='qr-code'
-                        src={QR_link && !is_loading ? QR_link : 'preloader.gif'}
-                        alt={QR_link && !is_loading ? 'qr-code' : 'preloader'}
-                    />
+                    <div className={'preloader-container'}>
+                        <img className={'preloader'} src={'preloader.gif'} alt={'preloader'} />
+                    </div>
                 )}
             </div>
         );

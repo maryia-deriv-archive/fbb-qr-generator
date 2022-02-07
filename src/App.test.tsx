@@ -2,8 +2,15 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { App } from 'App';
 
-test('renders learn react link', () => {
-    render(<App />);
-    const linkElement = screen.getByText(/learn react/i);
-    expect(linkElement).toBeInTheDocument();
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+window.HTMLMediaElement.prototype.play = (() => {}) as () => Promise<void>;
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+window.HTMLMediaElement.prototype.pause = () => {};
+
+test('App is rendered with greeting', () => {
+    const { container } = render(<App />);
+    const app = container.querySelector('.App');
+    const greeting = screen.getByText('Welcome to the vCard QR Code Generator by Foo-Bar-&-Baz!');
+    expect(app).toBeInTheDocument();
+    expect(greeting).toBeInTheDocument();
 });

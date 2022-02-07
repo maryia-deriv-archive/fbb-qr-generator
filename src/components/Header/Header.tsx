@@ -33,9 +33,8 @@ const Header = () => {
                     </div>
                 </MetallicTitle>
             </div>
-            <div className='title_wrapprer'>
+            <div className='title_wrapper'>
                 <p>Welcome to the vCard QR Code Generator by Foo-Bar-&-Baz!</p>
-                {/* <p>by Foo-Bar-&-Baz!</p> */}
             </div>
             <div className='start_btn' onClick={toggle}>
                 {background_music_play ? (

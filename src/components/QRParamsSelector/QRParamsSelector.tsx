@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './QRCodeGenerator.scss';
+import '../QRCodeGenerator/QRCodeGenerator.scss';
 
 type TColors = {
     title: string;

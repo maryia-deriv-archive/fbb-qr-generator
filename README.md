@@ -10,7 +10,6 @@ It was bootstrapped with [Create React App](https://github.com/facebook/create-r
 * [General Info](#general-information)
 * [Technologies Used](#technologies-used)
 * [Features](#features)
-* [Setup](#setup)
 
 ## General Information
 

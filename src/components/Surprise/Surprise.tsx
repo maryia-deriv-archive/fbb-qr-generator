@@ -1,23 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './Surprise.scss';
 
 type TSurpriseProps = {
     should_show_surprise: boolean;
     setShouldShowSurprise: (should_show_surprise: boolean) => void;
-    startPosition: number[];
-    destination: HTMLElement | null;
+    startPosition: HTMLButtonElement | null;
+    destination: HTMLDivElement | null;
 };
 
 export const Surprise: React.FC<TSurpriseProps> = React.memo(
     ({ should_show_surprise, setShouldShowSurprise, startPosition, destination }: TSurpriseProps) => {
+        const surprise_ref = useRef<HTMLDivElement>(null);
+
         const makeSurpriseRun = () => {
-            const end = [
-                (destination as HTMLElement)?.offsetTop + 70,
-                (destination as HTMLElement)?.offsetLeft + 70,
-            ];
-            document.querySelector('.surprise')?.animate(
+            const start = [(startPosition as HTMLElement)?.offsetTop, (startPosition as HTMLElement)?.offsetLeft + 70];
+            const end = [(destination as HTMLElement)?.offsetTop + 70, (destination as HTMLElement)?.offsetLeft + 70];
+            surprise_ref.current?.animate(
                 [
-                    { top: `${startPosition[0]}px`, left: `${startPosition[1]}px` },
+                    { top: `${start[0]}px`, left: `${start[1]}px` },
                     { top: `${end[0]}px`, left: `${end[1]}px` },
                 ],
                 {
@@ -46,7 +46,7 @@ export const Surprise: React.FC<TSurpriseProps> = React.memo(
 
         return (
             <>
-                <div className='surprise'></div>
+                <div className='surprise' ref={surprise_ref}></div>
                 <audio autoPlay src='/surprise-track.mp3'></audio>
             </>
         );

@@ -8,10 +8,11 @@ interface TQRCodeGeneratorProps {
     format: string;
     setQRLink: (params: string) => void;
     QR_link: string;
+    qr_ref: React.RefObject<HTMLDivElement>;
 }
 
 export const QRCodeGenerator: React.FC<TQRCodeGeneratorProps> = React.memo(
-    ({ data, color, size, format, setQRLink, QR_link }: TQRCodeGeneratorProps) => {
+    ({ data, color, size, format, setQRLink, QR_link, qr_ref }: TQRCodeGeneratorProps) => {
         const [error_message, setErrorMessage] = useState<string>('');
         const [is_loading, setIsLoading] = useState<boolean>(false);
 
@@ -39,7 +40,7 @@ export const QRCodeGenerator: React.FC<TQRCodeGeneratorProps> = React.memo(
         }, [data, color, size, format]);
 
         return (
-            <div className='qr-code-image'>
+            <div className='qr-code-image' ref={qr_ref}>
                 {error_message ? (
                     <div className='qr-code__error'>
                         <p>{error_message}</p>

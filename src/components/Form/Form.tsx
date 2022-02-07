@@ -91,10 +91,10 @@ const form_rows: TFormRowsData = [
 
 type TFormProps = {
     onDataSubmit: (v_card_string: string) => void;
-    setSurpriseStart: (top: number, left: number) => void;
+    button_ref: React.RefObject<HTMLButtonElement>;
 };
 
-export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, setSurpriseStart }: TFormProps) => {
+export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref }: TFormProps) => {
     const convertValuesToVCardString = (values: TFormValues) => {
         const trimmed_values = Object.entries(values)
             .map(entry => [entry[0], entry[1].trim()])
@@ -222,16 +222,7 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, setSurpris
                     }
                 )}
 
-                <button
-                    className='generate'
-                    type='submit'
-                    onClick={e => {
-                        setSurpriseStart(
-                            (e.target as HTMLButtonElement).offsetTop,
-                            (e.target as HTMLButtonElement).offsetLeft + 100
-                        );
-                    }}
-                >
+                <button className='generate' type='submit' ref={button_ref}>
                     Generate QR Code
                 </button>
             </form>

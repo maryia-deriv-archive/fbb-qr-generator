@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './App.scss';
 import { Form } from 'components/Form/Form';
 import Header from 'components/Header/Header';
@@ -15,23 +15,19 @@ export const App = () => {
     const [format, setFormat] = useState<string>('png');
     const [QR_link, setQRLink] = useState('');
     const [should_show_surprise, setShouldShowSurprise] = useState<boolean>(false);
-    const [start, setStart] = useState<number[]>([]);
+    const button_ref = useRef<HTMLButtonElement>(null);
+    const qr_ref = useRef<HTMLDivElement>(null);
 
     const handleFormSubmit = (v_card_string: string) => {
         setVCardData(v_card_string);
-        if (start) setShouldShowSurprise(true);
+        setShouldShowSurprise(true);
     };
 
     return (
         <div className='App'>
             <Header />
             <main>
-                <Form
-                    onDataSubmit={handleFormSubmit}
-                    setSurpriseStart={(_top: number, _left: number) => {
-                        setStart([_top, _left]);
-                    }}
-                />
+                <Form onDataSubmit={handleFormSubmit} button_ref={button_ref} />
                 <div className='temporary-vCard-display'>
                     <QRCodeGenerator
                         data={vCardData}
@@ -40,6 +36,7 @@ export const App = () => {
                         format={format}
                         setQRLink={setQRLink}
                         QR_link={QR_link}
+                        qr_ref={qr_ref}
                     />
                     <QRParamsSelector onColorSelect={setColor} onSizeSelect={setSize} onFormatSelect={setFormat} />
                     <QRCodeDownload QR_link={QR_link} format={format} />
@@ -49,8 +46,8 @@ export const App = () => {
             <Surprise
                 should_show_surprise={should_show_surprise}
                 setShouldShowSurprise={setShouldShowSurprise}
-                startPosition={start}
-                destination={document.querySelector('.qr-code-image')}
+                startPosition={button_ref.current}
+                destination={qr_ref.current}
             />
         </div>
     );

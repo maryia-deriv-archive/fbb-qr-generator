@@ -4,8 +4,8 @@ import { Form } from 'components/Form/Form';
 import Header from 'components/Header/Header';
 import Footer from 'components/Footer/Footer';
 import { QRCodeGenerator } from 'components/QRCodeGenerator/QRCodeGenerator';
-import { QRParamsSelector } from 'components/QRCodeGenerator/QRParamsSelector';
-import { QRCodeDownload } from 'components/QRCodeGenerator/QRCodeDownload';
+import { QRParamsSelector } from 'components/QRParamsSelector/QRParamsSelector';
+import { QRCodeDownload } from 'components/QRCodeDownload/QRCodeDownload';
 import { Surprise } from 'components/Surprise/Surprise';
 
 export const App = () => {

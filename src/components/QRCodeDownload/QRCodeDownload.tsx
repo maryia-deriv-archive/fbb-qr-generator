@@ -1,5 +1,5 @@
 import React from 'react';
-import './QRCodeGenerator.scss';
+import '../QRCodeGenerator/QRCodeGenerator.scss';
 
 interface TQRCodeDownloadProps {
     QR_link: string;

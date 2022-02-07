@@ -34,6 +34,7 @@ It was bootstrapped with [Create React App](https://github.com/facebook/create-r
 * Selector for QR code parameters (by color, size & format);
 * QR code generator displaying either the resulting QR code, or a preloader if it's still loading, or an error if an error occurred
 * Download button
+* Background music play/pause button in Header
 * Surprise feature
 
 ## Available Scripts

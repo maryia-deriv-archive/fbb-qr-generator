@@ -1,7 +1,40 @@
 # Foo-Bar-&-Baz's vCard QR Code Generator
 
-This a vCard QR Code Qenerator designed by Foo-Bar-&-Baz.
+This is a vCard QR Code Generator designed by Foo-Bar-&-Baz.
 It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+![Example screenshot](./screenshot.png)
+
+## Table of Contents
+
+* [General Info](#general-information)
+* [Technologies Used](#technologies-used)
+* [Features](#features)
+
+## General Information
+
+* A QR Code Generator
+* Hackathon 2022
+
+## Technologies Used
+
+* React - version ^17.0.2
+* TypeScript - version ^4.5.5
+* Formik - version ^2.2.9",
+* Sass - version ^7.0.1
+* Jest - version ^27.4.7
+* React Testing Library - version ^12.1.2
+* Eslint - version ^8.7.0",
+* Prettier - version ^8.3.0
+* [QR Code API](https://goqr.me/api/doc/create-qr-code/)
+
+## Features
+
+* Form to collect data for QR code generation
+* Selector for QR code parameters (by color, size & format);
+* QR code generator displaying either the resulting QR code, or a preloader if it's still loading, or an error if an error occurred
+* Download button
+* Surprise feature
 
 ## Available Scripts
 

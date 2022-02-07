@@ -38,9 +38,9 @@ const Header = () => {
             </div>
             <div className='start_btn' onClick={toggle}>
                 {background_music_play ? (
-                    <img className='sound_off' src={'/sound_off.ico'} />
-                ) : (
                     <img className='sound_on' src={'/sound_on.png'} />
+                ) : (
+                    <img className='sound_off' src={'/sound_off.ico'} />
                 )}
             </div>
         </header>

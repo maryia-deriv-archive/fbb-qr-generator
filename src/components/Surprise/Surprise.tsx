@@ -11,6 +11,7 @@ type TSurpriseProps = {
 export const Surprise: React.FC<TSurpriseProps> = React.memo(
     ({ should_show_surprise, setShouldShowSurprise, startPosition, destination }: TSurpriseProps) => {
         const surprise_ref = useRef<HTMLDivElement>(null);
+        const surprise_track_ref = useRef<HTMLAudioElement>(null);
 
         const makeSurpriseRun = () => {
             const start = [(startPosition as HTMLElement)?.offsetTop, (startPosition as HTMLElement)?.offsetLeft + 70];
@@ -30,8 +31,9 @@ export const Surprise: React.FC<TSurpriseProps> = React.memo(
 
         useEffect(() => {
             let timeout_id: NodeJS.Timeout;
-            if (should_show_surprise) {
+            if (should_show_surprise && surprise_track_ref) {
                 makeSurpriseRun();
+                surprise_track_ref.current?.play();
                 timeout_id = setTimeout(() => {
                     setShouldShowSurprise(false);
                 }, 2000);
@@ -39,6 +41,7 @@ export const Surprise: React.FC<TSurpriseProps> = React.memo(
 
             return () => {
                 if (timeout_id) clearTimeout(timeout_id);
+                if (surprise_track_ref) surprise_track_ref.current?.pause();
             };
         }, [should_show_surprise]);
 
@@ -47,7 +50,7 @@ export const Surprise: React.FC<TSurpriseProps> = React.memo(
         return (
             <>
                 <div className='surprise' ref={surprise_ref}></div>
-                <audio autoPlay src='/surprise-track.mp3'></audio>
+                <audio src='/surprise-track.mp3' ref={surprise_track_ref}></audio>
             </>
         );
     }

@@ -6,8 +6,11 @@
     background-color: white;
     display: flex;
     justify-content: center;
+    @media (max-width: 410px) {
+        align-items: center;
+    }
 
-    .qr-code {
+    canvas {
         width: 250px;
         height: 250px;
 
@@ -15,32 +18,15 @@
             width: 150px;
             height: 150px;
         }
-
-        &__error {
-            width: 250px;
-            height: 250px;
-            color: red;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-        }
-    }
-    .preloader-container {
-        width: 100%;
-        height: 100%;
-        .preloader {
-            position: relative;
-            width: 90px;
-            height: 90px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
     }
 }
 
 .color_btn_black {
     color: black;
+}
+
+.color_btn_coral_red {
+    color: rgb(255, 68, 79);
 }
 
 .color_btn_red {
@@ -57,6 +43,10 @@
 
 .color_btn_rose {
     color: rgb(220, 20, 60);
+}
+
+.color_btn_slate {
+    color: rgb(65, 70, 82);
 }
 
 .btn-block {

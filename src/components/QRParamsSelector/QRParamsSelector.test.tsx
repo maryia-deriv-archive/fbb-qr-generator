@@ -31,22 +31,22 @@ describe('QRParamsSelector', () => {
         const wrapper = container.querySelector('.qr-params-selector');
         const param_picker = container.querySelector('.param-picker');
         const color_picker = screen.getByText('Please select color:');
-        const black_color = screen.getByText(/black/i);
+        const coral_red_color = screen.getByText(/coral red/i);
         expect(wrapper).toBeInTheDocument();
         expect(param_picker).toBeInTheDocument();
         expect(color_picker).toBeInTheDocument();
-        expect(black_color).toBeInTheDocument();
+        expect(coral_red_color).toBeInTheDocument();
     });
     test('QRParamsSelector is rendered with size picker', () => {
         const { container } = render(<QRParamsSelector {...props} />);
         const wrapper = container.querySelector('.qr-params-selector');
         const param_picker = container.querySelector('.param-picker');
         const size_picker = screen.getByText('Please select size:');
-        const _600x600_size = screen.getByText(/600x600/i);
+        const _500x500_size = screen.getByText(/500x500/i);
         expect(wrapper).toBeInTheDocument();
         expect(param_picker).toBeInTheDocument();
         expect(size_picker).toBeInTheDocument();
-        expect(_600x600_size).toBeInTheDocument();
+        expect(_500x500_size).toBeInTheDocument();
     });
     test('QRParamsSelector is rendered with format picker', () => {
         const { container } = render(<QRParamsSelector {...props} />);

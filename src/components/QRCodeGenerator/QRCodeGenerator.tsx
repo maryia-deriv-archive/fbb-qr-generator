@@ -1,3 +1,4 @@
+import { colors } from 'components/QRParamsSelector/QRParamsSelector';
 import React, { useEffect, useState } from 'react';
 import './QRCodeGenerator.scss';
 
@@ -18,7 +19,7 @@ export const QRCodeGenerator: React.FC<TQRCodeGeneratorProps> = React.memo(
 
         const getQrSrc = (_data?: string, _color?: string, _size?: string, _format?: string) => {
             const qr_url = `https://api.qrserver.com/v1/create-qr-code/?data=${_data || 'Hello'}&color=${
-                _color || '0-0-0'
+                _color || colors[0].rgb_decimal_code
             }&size=${_size || '600x600'}&format=${_format || 'png'}&margin=30`;
             setIsLoading(true);
             fetch(qr_url)

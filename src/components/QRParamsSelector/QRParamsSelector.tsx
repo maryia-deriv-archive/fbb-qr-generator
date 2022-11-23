@@ -14,7 +14,9 @@ type TParams = {
     };
 };
 
-const colors: TColors = [
+export const colors: TColors = [
+    { title: 'slate', rgb_decimal_code: '65-70-82' },
+    { title: 'coral_red', rgb_decimal_code: '255-68-79' },
     { title: 'black', rgb_decimal_code: '0-0-0' },
     { title: 'red', rgb_decimal_code: '255-0-0' },
     { title: 'blue', rgb_decimal_code: '0-0-255' },
@@ -34,7 +36,7 @@ type TQRParamsSelectorProps = {
 export const QRParamsSelector: React.FC<TQRParamsSelectorProps> = React.memo(
     ({ onColorSelect, onSizeSelect, onFormatSelect }: TQRParamsSelectorProps) => {
         const [params, setParams] = useState<TParams>({
-            [param_types[0]]: { options: colors, default: 'black', selected: '0-0-0' },
+            [param_types[0]]: { options: colors, default: colors[0].title, selected: colors[0].rgb_decimal_code },
             [param_types[1]]: { options: sizes, default: '600x600', selected: '600x600' },
             [param_types[2]]: { options: formats, default: 'png', selected: 'png' },
         });

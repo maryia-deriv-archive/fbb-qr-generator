@@ -17,7 +17,7 @@ export const qrCode = new QRCodeStyling({
         color: colors[0].color_code,
     },
     imageOptions: {
-        crossOrigin: 'anonymous',
+        crossOrigin: 'use-credentials',
         margin: 5,
     },
 });
@@ -26,7 +26,7 @@ export const App = () => {
     const [vCardData, setVCardData] = useState<string>('');
     const [color, setColor] = useState<string>('');
     const [size, setSize] = useState<string>('');
-    const [format, setFormat] = useState<FileExtension>('png');
+    const [format, setFormat] = useState<FileExtension>('svg');
     const [should_show_surprise, setShouldShowSurprise] = useState<boolean>(false);
     const [is_qr_appended, setIsQrAppended] = useState<boolean>(false);
     const main_ref = useRef<HTMLDivElement>(null);

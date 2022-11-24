@@ -124,7 +124,7 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
             email: '',
             company: 'Deriv',
             job: '',
-            street: 'C-13, iTech Tower, Jalan Impact, Cyber 6',
+            street: 'Deriv HQ, 3500, Jalan Teknokrat 3',
             city: 'Cyberjaya',
             zip: '63000',
             state: 'Selangor',

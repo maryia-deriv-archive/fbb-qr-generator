@@ -20,7 +20,7 @@ export const colors: TColors = [
     { title: 'coral red', color_code: '#FF444F' },
 ];
 const sizes: string[] = ['250x250', '500x500', '750x750', '1000x1000'];
-const formats: string[] = ['svg', 'jpeg', 'png'];
+const formats: string[] = ['svg', 'jpeg', 'png', 'webp'];
 const param_types = ['color', 'size', 'format'];
 
 type TQRParamsSelectorProps = {

@@ -6,10 +6,12 @@
     background-color: white;
     display: flex;
     justify-content: center;
+    position: relative;
     @media (max-width: 410px) {
         align-items: center;
     }
 
+    svg,
     canvas {
         width: 250px;
         height: 250px;

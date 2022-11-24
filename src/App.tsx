@@ -3,7 +3,7 @@ import { Form } from 'components/Form/Form';
 import Header from 'components/Header/Header';
 import { colors, QRParamsSelector } from 'components/QRParamsSelector/QRParamsSelector';
 import { Surprise } from 'components/Surprise/Surprise';
-import QRCodeStyling, { FileExtension } from 'qr-code-styling';
+import QRCodeStyling, { Extension } from '@ckho/qr-code-styling';
 import React, { useEffect, useRef, useState } from 'react';
 import './App.scss';
 import './components/QRParamsSelector/QRParamsSelector.scss';
@@ -11,6 +11,7 @@ import './components/QRParamsSelector/QRParamsSelector.scss';
 export const qrCode = new QRCodeStyling({
     width: 250,
     height: 250,
+    type: 'svg',
     data: 'https://deriv.com/',
     image: 'qr-logo.svg',
     dotsOptions: {
@@ -19,6 +20,7 @@ export const qrCode = new QRCodeStyling({
     imageOptions: {
         crossOrigin: 'use-credentials',
         margin: 5,
+        saveAsBlob: true,
     },
 });
 
@@ -26,7 +28,7 @@ export const App = () => {
     const [vCardData, setVCardData] = useState<string>('');
     const [color, setColor] = useState<string>('');
     const [size, setSize] = useState<string>('');
-    const [format, setFormat] = useState<FileExtension>('svg');
+    const [format, setFormat] = useState<Extension>('svg');
     const [should_show_surprise, setShouldShowSurprise] = useState<boolean>(false);
     const [is_qr_appended, setIsQrAppended] = useState<boolean>(false);
     const main_ref = useRef<HTMLDivElement>(null);
@@ -48,6 +50,14 @@ export const App = () => {
                 color: color || colors[0].color_code,
             },
         });
+
+        if (format === 'svg') {
+            // viewBox is needed to keep svg inside its container
+            main_ref.current?.children[0]?.setAttribute(
+                'viewBox',
+                `0 0 ${+size?.split('x')[0] || 250} ${+size?.split('x')[0] || 250}`
+            );
+        }
     }, [vCardData, color, size]);
 
     const handleFormSubmit = (v_card_string: string) => {
@@ -56,9 +66,32 @@ export const App = () => {
     };
 
     const onDownload = () => {
-        qrCode.download({
-            extension: format as FileExtension,
-        });
+        if (format === 'svg') {
+            // a workaround to create svg with svg logo inside. qr-code-styling only creates it with png/jpeg logo
+            const image = document.querySelector('image');
+            const getBase64FromUrl = async (url: string) => {
+                const data = await fetch(url);
+                const blob = await data.blob();
+                return new Promise(resolve => {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onloadend = () => {
+                        const base64data = reader.result;
+                        resolve(base64data);
+                    };
+                });
+            };
+            getBase64FromUrl(color === '#FF444F' ? 'qr-logo-coral-red.svg' : 'qr-logo.svg').then(base64 => {
+                (image as SVGImageElement)?.setAttribute('href', `${base64}`);
+                qrCode.download({
+                    extension: format as Extension,
+                });
+            });
+        } else {
+            qrCode.download({
+                extension: format as Extension,
+            });
+        }
     };
 
     return (

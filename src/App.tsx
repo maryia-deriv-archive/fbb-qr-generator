@@ -78,19 +78,45 @@ export const App = () => {
 
                 blob.text().then(html => {
                     if (image) image.outerHTML = html; // replace image tag with svg
-                    const path = parent_svg?.querySelector('path');
+                    const logo_path = parent_svg?.querySelector('path');
                     const qr_size = +size?.split('x')[0] || 250;
                     const x_scale = (qr_size * 0.228) / 250; // it's 0.228 for size 250x250
                     const y_scale = (qr_size * 0.2) / 250; // it's 0.2 for size 250x250
-                    if (path) {
-                        path?.setAttribute(
+                    if (logo_path) {
+                        logo_path?.setAttribute(
                             'transform',
                             `translate(${qr_size / 2.63},${qr_size / 2.63}) scale(${x_scale},${y_scale})`
                         );
-                        parent_svg?.appendChild(path);
                     }
                     const old_svg = parent_svg?.querySelector('svg');
                     if (old_svg) parent_svg?.removeChild(old_svg);
+
+                    // Specific AI (Adobe Illustrator) workaround: clipPath is not working there,
+                    // so we remove <defs> & <clipPath> tags & place all <react> tags inside them outside
+                    // after the background rect which we now put at the beginning of svg (to put them behind),
+                    // and finally add a path for logo:
+                    const svg_qr = document.querySelector('.qr-code-image svg');
+                    if (svg_qr) {
+                        const defs = svg_qr?.querySelector('defs');
+                        if (defs) {
+                            const rects = svg_qr?.querySelectorAll('rect');
+                            const last_rect = Array.from(rects).pop();
+                            const fill = last_rect?.getAttribute('fill') || '';
+                            if (last_rect) parent_svg?.removeChild(last_rect);
+
+                            rects.forEach((rect, index) => {
+                                const parent = rect?.parentElement;
+                                if (index < rects.length - 2) {
+                                    // add fill color to rects (dots) that QR code consists of & place them outside of defs:
+                                    rect.setAttribute('fill', fill);
+                                    parent?.removeChild(rect);
+                                    parent_svg?.appendChild(rect);
+                                }
+                            });
+                            parent_svg?.removeChild(defs);
+                        }
+                    }
+                    if (logo_path) parent_svg?.appendChild(logo_path);
 
                     qrCode.download({
                         extension: format as Extension,

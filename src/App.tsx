@@ -73,24 +73,23 @@ export const App = () => {
                 return await data.blob();
             };
             getBase64FromUrl(color === '#FF444F' ? 'qr-logo-coral-red.svg' : 'qr-logo.svg').then((blob: Blob) => {
-                const image = document.querySelector('image');
-                const parent_svg = image?.parentElement;
-
                 blob.text().then(html => {
-                    if (image) image.outerHTML = html; // replace image tag with svg
-                    const logo_path = parent_svg?.querySelector('path');
-                    const qr_size = +size?.split('x')[0] || 250;
-                    const x_scale = (qr_size * 0.228) / 250; // it's 0.228 for size 250x250
-                    const y_scale = (qr_size * 0.2) / 250; // it's 0.2 for size 250x250
-                    if (logo_path) {
-                        logo_path?.setAttribute(
-                            'transform',
-                            `translate(${qr_size / 2.63},${qr_size / 2.63}) scale(${x_scale},${y_scale})`
-                        );
+                    const image = document.querySelector('image');
+                    const parent_svg = image?.parentElement;
+                    if (image) {
+                        const image_x = image.getAttribute('x') || '';
+                        const image_y = image.getAttribute('y') || '';
+                        const image_width = image.getAttribute('width') || '';
+                        const image_height = image.getAttribute('height') || '';
+                        image.outerHTML = html; // replace image tag with svg
+                        const old_svg = parent_svg?.querySelector('svg');
+                        if (old_svg) {
+                            old_svg.setAttribute('x', image_x);
+                            old_svg.setAttribute('y', image_y);
+                            old_svg.setAttribute('width', image_width);
+                            old_svg.setAttribute('height', image_height);
+                        }
                     }
-                    const old_svg = parent_svg?.querySelector('svg');
-                    if (old_svg) parent_svg?.removeChild(old_svg);
-
                     // Specific AI (Adobe Illustrator) workaround: clipPath is not working there,
                     // so we remove <defs> & <clipPath> tags & place all <react> tags inside them outside
                     // after the background rect which we now put at the beginning of svg (to put them behind),
@@ -116,7 +115,6 @@ export const App = () => {
                             parent_svg?.removeChild(defs);
                         }
                     }
-                    if (logo_path) parent_svg?.appendChild(logo_path);
 
                     qrCode.download({
                         extension: format as Extension,

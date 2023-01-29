@@ -19,7 +19,8 @@ export const qrCode = new QRCodeStyling({
     },
     imageOptions: {
         crossOrigin: 'use-credentials',
-        margin: 21.25,
+        margin: 20,
+        imageSize: 0.5,
         saveAsBlob: true,
     },
 });
@@ -46,14 +47,15 @@ export const App = () => {
         qrCode.update({
             data: vCardData || 'https://deriv.com/',
             image: color === '#FF444F' ? 'qr-logo-coral-red.svg' : 'qr-logo.svg',
-            width: width,
-            height: height,
+            width,
+            height,
             dotsOptions: {
                 color: color || colors[0].color_code,
             },
             imageOptions: {
                 crossOrigin: 'use-credentials',
-                margin: width * 0.085,
+                margin: width * 0.08,
+                imageSize: 0.5,
                 saveAsBlob: true,
             },
         });

@@ -169,13 +169,15 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
                         Autofill Your Office Address:
                     </label>
                     <select className='col-6' id='autofill' value={selected_address} onChange={onAddressAutofill}>
-                        {Object.entries(company_addresses).map(([key, value]) => {
-                            return (
-                                <option key={key} value={key} selected={value.is_default}>
-                                    {value.option_name}
-                                </option>
-                            );
-                        })}
+                        {Object.entries(company_addresses)
+                            .sort(([key_1], [key_2]) => key_1.localeCompare(key_2))
+                            .map(([key, value]) => {
+                                return (
+                                    <option key={key} value={key} selected={value.is_default}>
+                                        {value.option_name}
+                                    </option>
+                                );
+                            })}
                     </select>
                 </div>
                 <button className='generate' type='submit' ref={button_ref}>

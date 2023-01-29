@@ -27,7 +27,8 @@
         "no-console": "error",
         "quotes": [
             "error",
-            "single"
+            "single",
+            { "avoidEscape": true }
         ],
         "@typescript-eslint/no-use-before-define": ["error"]
     }

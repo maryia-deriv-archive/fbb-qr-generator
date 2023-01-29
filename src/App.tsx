@@ -20,7 +20,7 @@ export const qrCode = new QRCodeStyling({
     imageOptions: {
         crossOrigin: 'use-credentials',
         margin: 20,
-        imageSize: 0.5,
+        imageSize: 0.45,
         saveAsBlob: true,
     },
 });
@@ -54,8 +54,8 @@ export const App = () => {
             },
             imageOptions: {
                 crossOrigin: 'use-credentials',
-                margin: width * 0.08,
-                imageSize: 0.5,
+                margin: width * 0.085,
+                imageSize: 0.45,
                 saveAsBlob: true,
             },
         });

@@ -2,15 +2,7 @@ import { MetallicTitle } from 'components/MetallicTitle/MetallicTitle';
 import { useFormik } from 'formik';
 import React from 'react';
 import './Form.scss';
-
-type TFormRowsData = {
-    first_field_name: string;
-    second_field_name?: string;
-    label_text?: string;
-    first_field_placeholder?: string;
-    second_field_placeholder?: string;
-    input_type?: string;
-}[];
+import { company_addresses, form_rows } from './constants';
 
 type TFormValues = {
     first_name: string;
@@ -29,72 +21,13 @@ type TFormValues = {
     website: string;
 };
 
-const form_rows: TFormRowsData = [
-    {
-        first_field_name: 'first_name',
-        second_field_name: 'last_name',
-        label_text: 'Name:',
-        first_field_placeholder: 'First name',
-        second_field_placeholder: 'Last name',
-    },
-    {
-        first_field_name: 'mobile_number',
-        label_text: 'Contact:',
-        first_field_placeholder: 'Mobile',
-        input_type: 'tel',
-    },
-    {
-        first_field_name: 'phone_number',
-        second_field_name: 'fax_number',
-        first_field_placeholder: 'Phone',
-        second_field_placeholder: 'Fax',
-        input_type: 'tel',
-    },
-    {
-        first_field_name: 'email',
-        label_text: 'Email:',
-        first_field_placeholder: 'your@email.com',
-        input_type: 'email',
-    },
-    {
-        first_field_name: 'company',
-        second_field_name: 'job',
-        label_text: 'Company:',
-        first_field_placeholder: 'Company',
-        second_field_placeholder: 'Your Job',
-    },
-    {
-        first_field_name: 'street',
-        label_text: 'Street:',
-    },
-    {
-        first_field_name: 'city',
-        second_field_name: 'zip',
-        label_text: 'City:',
-        second_field_placeholder: 'ZIP',
-    },
-    {
-        first_field_name: 'state',
-        label_text: 'State:',
-    },
-    {
-        first_field_name: 'country',
-        label_text: 'Country:',
-    },
-    {
-        first_field_name: 'website',
-        label_text: 'Website:',
-        first_field_placeholder: 'www.your-website.com',
-        input_type: 'url',
-    },
-];
-
 type TFormProps = {
     onDataSubmit: (v_card_string: string) => void;
     button_ref: React.RefObject<HTMLButtonElement>;
 };
 
 export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref }: TFormProps) => {
+    const [selected_address, setSelectedAddress] = React.useState('cyberjaya');
     const convertValuesToVCardString = (values: TFormValues) => {
         const trimmed_values = Object.entries(values)
             .map(entry => [entry[0], entry[1].trim()])
@@ -114,6 +47,8 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
         onDataSubmit(encoded_string);
     };
 
+    const initial_address_values = company_addresses['cyberjaya'].autofill_values;
+
     const formik = useFormik({
         initialValues: {
             first_name: '',
@@ -124,11 +59,11 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
             email: '',
             company: 'Deriv',
             job: '',
-            street: 'Deriv HQ, 3500, Jalan Teknokrat 3',
-            city: 'Cyberjaya',
-            zip: '63000',
-            state: 'Selangor',
-            country: 'Malaysia',
+            street: initial_address_values.street,
+            city: initial_address_values.city,
+            zip: initial_address_values.zip,
+            state: initial_address_values.state,
+            country: initial_address_values.country,
             website: 'https://deriv.com/',
         },
         validate: values => {
@@ -142,6 +77,15 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
             convertValuesToVCardString(values);
         },
     });
+
+    const onAddressAutofill: React.ChangeEventHandler<HTMLSelectElement> = e => {
+        const new_selected_address = e.currentTarget.value;
+        setSelectedAddress(new_selected_address);
+        const autofill_values = company_addresses[new_selected_address].autofill_values;
+        Object.entries(autofill_values).forEach(([key, value]) => {
+            formik.setFieldValue(key, value);
+        });
+    };
 
     return (
         <div className='form-container'>
@@ -220,7 +164,20 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
                         );
                     }
                 )}
-
+                <div>
+                    <label className='col-3' htmlFor='autofill'>
+                        Autofill Your Office Address:
+                    </label>
+                    <select className='col-6' id='autofill' value={selected_address} onChange={onAddressAutofill}>
+                        {Object.entries(company_addresses).map(([key, value]) => {
+                            return (
+                                <option key={key} value={key} selected={value.is_default}>
+                                    {value.option_name}
+                                </option>
+                            );
+                        })}
+                    </select>
+                </div>
                 <button className='generate' type='submit' ref={button_ref}>
                     Generate QR Code
                 </button>

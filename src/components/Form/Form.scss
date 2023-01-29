@@ -114,7 +114,8 @@
 
 .form-container,
 .form-container__color-input {
-    input {
+    input,
+    select {
         margin: 10px;
         width: 100%;
         height: 25px;

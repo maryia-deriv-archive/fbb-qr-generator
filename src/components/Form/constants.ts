@@ -82,6 +82,16 @@ export const form_rows: TFormRowsData = [
 ];
 
 export const company_addresses: TCompanyAddresses = {
+    hong_kong: {
+        option_name: 'Hong Kong office address',
+        autofill_values: {
+            street: 'Unit 408a, 4/F, Empire Centre, 68 Mody Road, East Tsim Sha Tsui, Kowloon',
+            city: 'Hong Kong',
+            zip: '',
+            state: '',
+            country: 'Hong Kong SAR, China',
+        },
+    },
     paris: {
         option_name: 'Paris office address',
         autofill_values: {

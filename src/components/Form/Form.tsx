@@ -2,7 +2,7 @@ import { MetallicTitle } from 'components/MetallicTitle/MetallicTitle';
 import { useFormik } from 'formik';
 import React from 'react';
 import './Form.scss';
-import { company_addresses, form_rows } from './constants';
+import { form_rows, getCompanyAddresses, TCompanyAddresses } from './utils';
 
 type TFormValues = {
     first_name: string;
@@ -27,7 +27,16 @@ type TFormProps = {
 };
 
 export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref }: TFormProps) => {
+    const [company_addresses, setCompanyAddresses] = React.useState<TCompanyAddresses>({});
     const [selected_address, setSelectedAddress] = React.useState('cyberjaya');
+
+    React.useEffect(() => {
+        getCompanyAddresses().then(response => {
+            setCompanyAddresses(response);
+            setSelectedAddress(Object.entries(response).find(([, value]) => value.is_default)?.[0] ?? 'cyberjaya');
+        });
+    }, []);
+
     const convertValuesToVCardString = (values: TFormValues) => {
         const trimmed_values = Object.entries(values)
             .map(entry => [entry[0], entry[1].trim()])
@@ -47,9 +56,10 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
         onDataSubmit(encoded_string);
     };
 
-    const initial_address_values = company_addresses['cyberjaya'].autofill_values;
+    const initial_address_values = company_addresses?.[selected_address]?.autofill_values ?? ({} as TFormValues);
 
     const formik = useFormik({
+        enableReinitialize: true,
         initialValues: {
             first_name: '',
             last_name: '',
@@ -59,11 +69,11 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
             email: '',
             company: 'Deriv',
             job: '',
-            street: initial_address_values.street,
-            city: initial_address_values.city,
-            zip: initial_address_values.zip,
-            state: initial_address_values.state,
-            country: initial_address_values.country,
+            street: initial_address_values.street ?? '',
+            city: initial_address_values.city ?? '',
+            zip: initial_address_values.zip ?? '',
+            state: initial_address_values.state ?? '',
+            country: initial_address_values.country ?? '',
             website: 'https://deriv.com/',
         },
         validate: values => {
@@ -81,12 +91,12 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
     const onAddressAutofill: React.ChangeEventHandler<HTMLSelectElement> = e => {
         const new_selected_address = e.currentTarget.value;
         setSelectedAddress(new_selected_address);
-        const autofill_values = company_addresses[new_selected_address].autofill_values;
+        const autofill_values = company_addresses?.[new_selected_address].autofill_values ?? {};
         Object.entries(autofill_values).forEach(([key, value]) => {
             formik.setFieldValue(key, value);
         });
     };
-
+    if (!Object.keys(company_addresses).length) return null;
     return (
         <div className='form-container'>
             <h1>
@@ -173,7 +183,7 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
                             .sort(([key_1], [key_2]) => key_1.localeCompare(key_2))
                             .map(([key, value]) => {
                                 return (
-                                    <option key={key} value={key} selected={value.is_default}>
+                                    <option key={key} value={key}>
                                         {value.option_name}
                                     </option>
                                 );

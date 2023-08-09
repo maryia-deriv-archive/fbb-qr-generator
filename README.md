@@ -7,35 +7,41 @@ It was bootstrapped with [Create React App](https://github.com/facebook/create-r
 
 ## Table of Contents
 
-* [General Info](#general-information)
-* [Technologies Used](#technologies-used)
-* [Features](#features)
+-   [General Info](#general-information)
+-   [Technologies Used](#technologies-used)
+-   [Features](#features)
 
 ## General Information
 
-* A QR Code Generator
-* Hackathon 2022
+-   A QR Code Generator
+-   Hackathon 2022
 
 ## Technologies Used
 
-* React - version ^17.0.2
-* TypeScript - version ^4.5.5
-* Formik - version ^2.2.9",
-* Sass - version ^7.0.1
-* Jest - version ^27.4.7
-* React Testing Library - version ^12.1.2
-* Eslint - version ^8.7.0",
-* Prettier - version ^8.3.0
-* [QR Code API](https://goqr.me/api/doc/create-qr-code/)
+-   React - version ^17.0.2
+-   TypeScript - version ^4.5.5
+-   Formik - version ^2.2.9"
+-   Sass - version ^7.0.1
+-   Jest - version ^27.4.7
+-   React Testing Library - version ^12.1.2
+-   Eslint - version ^8.7.0
+-   Prettier - version ^8.3.0
+-   [QR Code API](https://goqr.me/api/doc/create-qr-code/)
+-   Contentful headless CMS - version ^10.4.2
 
 ## Features
 
-* Form to collect data for QR code generation
-* Selector for QR code parameters (by color, size & format);
-* QR code generator displaying either the resulting QR code, or a preloader if it's still loading, or an error if an error occurred
-* Download button
-* Background music play/pause button in Header
-* Surprise feature
+-   Form to collect data for QR code generation
+-   Selector for QR code parameters (by color, size & format);
+-   QR code generator displaying either the resulting QR code, or a preloader if it's still loading, or an error if an error occurred
+-   Download button
+-   Background music play/pause button in Header
+-   Surprise feature
+
+## Setup
+
+Please use Node 16.
+To install dependencies, please run `npm i` in the project directory.
 
 ## Available Scripts
 

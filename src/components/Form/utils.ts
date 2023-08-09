@@ -83,7 +83,7 @@ export const form_rows: TFormRowsData = [
     },
 ];
 
-export const test_company_addresses: TCompanyAddresses = {
+export const addresses: TCompanyAddresses = {
     hong_kong: {
         option_name: 'Hong Kong office address',
         autofill_values: {
@@ -267,19 +267,35 @@ export const test_company_addresses: TCompanyAddresses = {
     },
 };
 
-export const getCompanyAddresses = async (): Promise<TCompanyAddresses | void> => {
+export const getCompanyAddresses = async (): Promise<TCompanyAddresses> => {
+    const accessToken = process.env.REACT_APP_API_KEY as string;
+    const environment = process.env.REACT_APP_ENV_ALIAS;
+    const space = process.env.REACT_APP_SPACE_ID as string;
+
     const client = createClient({
-        accessToken: process.env.REACT_APP_API_KEY as string,
-        environment: process.env.REACT_APP_ENV_ALIAS,
-        space: process.env.REACT_APP_SPACE_ID as string,
+        accessToken,
+        environment,
+        space,
     });
+
+    const getDefaultAddresses = (error: Error | string): TCompanyAddresses => {
+        // eslint-disable-next-line no-console
+        console.error('Error retrieving addresses from API: "', error, '". Using default addresses instead.');
+        return addresses;
+    };
 
     if (client) {
         try {
-            const response = await client.getEntry('6TgrE8Pf1ZZdmITJ10a8sf');
-            return response.fields.addresses as TCompanyAddresses;
-        } catch (e) {
-            throw new Error((e as Error).message);
+            const response = await client.getEntries();
+            const company_addresses = response.items.find(i => i.fields.addresses)?.fields
+                .addresses as TCompanyAddresses;
+            if (company_addresses) {
+                return company_addresses;
+            }
+            return getDefaultAddresses('No addresses found in API response');
+        } catch (error) {
+            return getDefaultAddresses(error as Error);
         }
     }
+    return getDefaultAddresses('Failed to create API client.');
 };

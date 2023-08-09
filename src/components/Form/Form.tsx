@@ -2,7 +2,7 @@ import { MetallicTitle } from 'components/MetallicTitle/MetallicTitle';
 import { useFormik } from 'formik';
 import React from 'react';
 import './Form.scss';
-import { form_rows, getCompanyAddresses, TCompanyAddresses } from './constants';
+import { form_rows, getCompanyAddresses, TCompanyAddresses } from './utils';
 
 type TFormValues = {
     first_name: string;
@@ -32,12 +32,8 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
 
     React.useEffect(() => {
         getCompanyAddresses().then(response => {
-            if (response) {
-                setCompanyAddresses(response);
-                setSelectedAddress(
-                    Object.entries(company_addresses).find(([, value]) => value.is_default)?.[0] ?? 'cyberjaya'
-                );
-            }
+            setCompanyAddresses(response);
+            setSelectedAddress(Object.entries(response).find(([, value]) => value.is_default)?.[0] ?? 'cyberjaya');
         });
     }, []);
 
@@ -63,6 +59,7 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
     const initial_address_values = company_addresses?.[selected_address]?.autofill_values ?? ({} as TFormValues);
 
     const formik = useFormik({
+        enableReinitialize: true,
         initialValues: {
             first_name: '',
             last_name: '',

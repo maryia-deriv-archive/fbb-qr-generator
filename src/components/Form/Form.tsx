@@ -27,12 +27,17 @@ type TFormProps = {
 };
 
 export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref }: TFormProps) => {
-    const [company_addresses, setCompanyAddresses] = React.useState<TCompanyAddresses | null>(null);
+    const [company_addresses, setCompanyAddresses] = React.useState<TCompanyAddresses>({});
     const [selected_address, setSelectedAddress] = React.useState('cyberjaya');
 
     React.useEffect(() => {
         getCompanyAddresses().then(response => {
-            if (response) setCompanyAddresses(response);
+            if (response) {
+                setCompanyAddresses(response);
+                setSelectedAddress(
+                    Object.entries(company_addresses).find(([, value]) => value.is_default)?.[0] ?? 'cyberjaya'
+                );
+            }
         });
     }, []);
 
@@ -55,7 +60,7 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
         onDataSubmit(encoded_string);
     };
 
-    const initial_address_values = company_addresses?.['cyberjaya'].autofill_values ?? ({} as TFormValues);
+    const initial_address_values = company_addresses?.[selected_address]?.autofill_values ?? ({} as TFormValues);
 
     const formik = useFormik({
         initialValues: {
@@ -67,11 +72,11 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
             email: '',
             company: 'Deriv',
             job: '',
-            street: initial_address_values.street,
-            city: initial_address_values.city,
-            zip: initial_address_values.zip,
-            state: initial_address_values.state,
-            country: initial_address_values.country,
+            street: initial_address_values.street ?? '',
+            city: initial_address_values.city ?? '',
+            zip: initial_address_values.zip ?? '',
+            state: initial_address_values.state ?? '',
+            country: initial_address_values.country ?? '',
             website: 'https://deriv.com/',
         },
         validate: values => {
@@ -94,7 +99,7 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
             formik.setFieldValue(key, value);
         });
     };
-    if (!company_addresses) return null;
+    if (!Object.keys(company_addresses).length) return null;
     return (
         <div className='form-container'>
             <h1>
@@ -181,7 +186,7 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
                             .sort(([key_1], [key_2]) => key_1.localeCompare(key_2))
                             .map(([key, value]) => {
                                 return (
-                                    <option key={key} value={key} selected={value.is_default}>
+                                    <option key={key} value={key}>
                                         {value.option_name}
                                     </option>
                                 );

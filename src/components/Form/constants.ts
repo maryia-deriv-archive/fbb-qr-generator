@@ -269,18 +269,17 @@ export const test_company_addresses: TCompanyAddresses = {
 
 export const getCompanyAddresses = async (): Promise<TCompanyAddresses | void> => {
     const client = createClient({
-        accessToken: process.env.API_KEY as string,
-        environment: process.env.ENV_ALIAS,
-        space: process.env.SPACE_ID as string,
+        accessToken: process.env.REACT_APP_API_KEY as string,
+        environment: process.env.REACT_APP_ENV_ALIAS,
+        space: process.env.REACT_APP_SPACE_ID as string,
     });
 
     if (client) {
         try {
             const response = await client.getEntry('6TgrE8Pf1ZZdmITJ10a8sf');
             return response.fields.addresses as TCompanyAddresses;
-        } catch (message) {
-            // eslint-disable-next-line no-console
-            console.error(message);
+        } catch (e) {
+            throw new Error((e as Error).message);
         }
     }
 };

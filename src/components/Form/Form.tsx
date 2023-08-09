@@ -2,7 +2,21 @@ import { MetallicTitle } from 'components/MetallicTitle/MetallicTitle';
 import { useFormik } from 'formik';
 import React from 'react';
 import './Form.scss';
-import { company_addresses, form_rows } from './constants';
+import { form_rows, getCompanyAddresses } from './constants';
+
+type TCompanyAddresses = {
+    [key: string]: {
+        option_name: string;
+        autofill_values: {
+            street: string;
+            city: string;
+            zip: string;
+            state: string;
+            country: string;
+        };
+        is_default?: boolean;
+    };
+};
 
 type TFormValues = {
     first_name: string;
@@ -27,7 +41,15 @@ type TFormProps = {
 };
 
 export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref }: TFormProps) => {
+    const [company_addresses, setCompanyAddresses] = React.useState<TCompanyAddresses | null>(null);
     const [selected_address, setSelectedAddress] = React.useState('cyberjaya');
+
+    React.useEffect(() => {
+        getCompanyAddresses().then(response => {
+            setCompanyAddresses(response as TCompanyAddresses);
+        });
+    }, []);
+
     const convertValuesToVCardString = (values: TFormValues) => {
         const trimmed_values = Object.entries(values)
             .map(entry => [entry[0], entry[1].trim()])
@@ -47,7 +69,7 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
         onDataSubmit(encoded_string);
     };
 
-    const initial_address_values = company_addresses['cyberjaya'].autofill_values;
+    const initial_address_values = company_addresses?.['cyberjaya'].autofill_values ?? ({} as TFormValues);
 
     const formik = useFormik({
         initialValues: {
@@ -81,12 +103,12 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
     const onAddressAutofill: React.ChangeEventHandler<HTMLSelectElement> = e => {
         const new_selected_address = e.currentTarget.value;
         setSelectedAddress(new_selected_address);
-        const autofill_values = company_addresses[new_selected_address].autofill_values;
+        const autofill_values = company_addresses?.[new_selected_address].autofill_values ?? {};
         Object.entries(autofill_values).forEach(([key, value]) => {
             formik.setFieldValue(key, value);
         });
     };
-
+    if (!company_addresses) return null;
     return (
         <div className='form-container'>
             <h1>

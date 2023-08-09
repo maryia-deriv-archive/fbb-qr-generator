@@ -2,21 +2,7 @@ import { MetallicTitle } from 'components/MetallicTitle/MetallicTitle';
 import { useFormik } from 'formik';
 import React from 'react';
 import './Form.scss';
-import { form_rows, getCompanyAddresses } from './constants';
-
-type TCompanyAddresses = {
-    [key: string]: {
-        option_name: string;
-        autofill_values: {
-            street: string;
-            city: string;
-            zip: string;
-            state: string;
-            country: string;
-        };
-        is_default?: boolean;
-    };
-};
+import { form_rows, getCompanyAddresses, TCompanyAddresses } from './constants';
 
 type TFormValues = {
     first_name: string;
@@ -46,7 +32,7 @@ export const Form: React.FC<TFormProps> = React.memo(({ onDataSubmit, button_ref
 
     React.useEffect(() => {
         getCompanyAddresses().then(response => {
-            setCompanyAddresses(response as TCompanyAddresses);
+            if (response) setCompanyAddresses(response);
         });
     }, []);
 

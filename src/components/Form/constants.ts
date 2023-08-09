@@ -9,7 +9,7 @@ type TFormRowsData = {
     input_type?: string;
 }[];
 
-type TCompanyAddresses = {
+export type TCompanyAddresses = {
     [key: string]: {
         option_name: string;
         autofill_values: {

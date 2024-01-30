@@ -265,7 +265,27 @@ export const addresses: TCompanyAddresses = {
             country: 'Vanuatu',
         },
     },
-};
+    london: {
+        option_name: 'london office address',
+        autofill_values: {
+            street: 'First floor, 68-72 leonard Street',
+            city: 'London',
+            zip: 'EC2A 4QX',
+            state: '',
+            country: 'United Kingdom',
+        },
+    },
+    reading: {
+        option_name: 'Reading office address',
+        autofill_values: {
+            street: 'Suite 1, Ground Floor, Block D, Apex, Forbury Road',
+            city: 'Reading',
+            zip: 'RG1 1AX',
+            state: '',
+            country: 'United Kingdom',
+        },
+    },
+}
 
 export const getCompanyAddresses = async (): Promise<TCompanyAddresses> => {
     const accessToken = process.env.REACT_APP_API_KEY as string;

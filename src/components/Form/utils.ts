@@ -1,3 +1,5 @@
+import { createClient } from 'contentful';
+
 type TFormRowsData = {
     first_field_name: string;
     second_field_name?: string;
@@ -7,7 +9,7 @@ type TFormRowsData = {
     input_type?: string;
 }[];
 
-type TCompanyAddresses = {
+export type TCompanyAddresses = {
     [key: string]: {
         option_name: string;
         autofill_values: {
@@ -81,7 +83,17 @@ export const form_rows: TFormRowsData = [
     },
 ];
 
-export const company_addresses: TCompanyAddresses = {
+export const addresses: TCompanyAddresses = {
+    hong_kong: {
+        option_name: 'Hong Kong office address',
+        autofill_values: {
+            street: 'Unit 408a, 4/F, Empire Centre, 68 Mody Road, East Tsim Sha Tsui, Kowloon',
+            city: 'Hong Kong',
+            zip: '',
+            state: '',
+            country: 'Hong Kong SAR, China',
+        },
+    },
     paris: {
         option_name: 'Paris office address',
         autofill_values: {
@@ -253,4 +265,57 @@ export const company_addresses: TCompanyAddresses = {
             country: 'Vanuatu',
         },
     },
+    london: {
+        option_name: 'london office address',
+        autofill_values: {
+            street: 'First floor, 68-72 leonard Street',
+            city: 'London',
+            zip: 'EC2A 4QX',
+            state: '',
+            country: 'United Kingdom',
+        },
+    },
+    reading: {
+        option_name: 'Reading office address',
+        autofill_values: {
+            street: 'Suite 1, Ground Floor, Block D, Apex, Forbury Road',
+            city: 'Reading',
+            zip: 'RG1 1AX',
+            state: '',
+            country: 'United Kingdom',
+        },
+    },
+}
+
+export const getCompanyAddresses = async (): Promise<TCompanyAddresses> => {
+    const accessToken = process.env.REACT_APP_API_KEY as string;
+    const environment = process.env.REACT_APP_ENV_ALIAS;
+    const space = process.env.REACT_APP_SPACE_ID as string;
+
+    const client = createClient({
+        accessToken,
+        environment,
+        space,
+    });
+
+    const getDefaultAddresses = (error: Error | string): TCompanyAddresses => {
+        // eslint-disable-next-line no-console
+        console.error('Error retrieving addresses from API: "', error, '". Using default addresses instead.');
+        return addresses;
+    };
+
+    if (client) {
+        try {
+            const response = await client.getEntries();
+            const company_addresses = response.items.find(i => i.fields.addresses)?.fields
+                .addresses as TCompanyAddresses;
+            if (company_addresses) {
+                return company_addresses;
+            }
+            return getDefaultAddresses('No addresses found in API response');
+        } catch (error) {
+            return getDefaultAddresses(error as Error);
+        }
+    }
+    return getDefaultAddresses('Failed to create API client.');
 };

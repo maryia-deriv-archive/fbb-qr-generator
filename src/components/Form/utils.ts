@@ -310,7 +310,31 @@ export const getCompanyAddresses = async (): Promise<TCompanyAddresses> => {
             const company_addresses = response.items.find(i => i.fields.addresses)?.fields
                 .addresses as TCompanyAddresses;
             if (company_addresses) {
-                return company_addresses;
+                const updated_company = {
+                    ...company_addresses, ...{
+                        london: {
+                            option_name: 'london office address',
+                            autofill_values: {
+                                street: 'First floor, 68-72 leonard Street',
+                                city: 'London',
+                                zip: 'EC2A 4QX',
+                                state: '',
+                                country: 'United Kingdom',
+                            },
+                        },
+                        reading: {
+                            option_name: 'Reading office address',
+                            autofill_values: {
+                                street: 'Suite 1, Ground Floor, Block D, Apex, Forbury Road',
+                                city: 'Reading',
+                                zip: 'RG1 1AX',
+                                state: '',
+                                country: 'United Kingdom',
+                            },
+                        },
+                    }
+                }
+                return updated_company;
             }
             return getDefaultAddresses('No addresses found in API response');
         } catch (error) {
